@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    public int id;
     public int prefabId;
     public float damage;
     public int count;
@@ -18,9 +17,12 @@ public class Weapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch (id)
+        switch (prefabId)
         {
             case 0:
+                
+                break;
+            case 1:
                 transform.Rotate(Vector3.forward * speed * Time.deltaTime);
                 break;
             default:
@@ -35,7 +37,7 @@ public class Weapon : MonoBehaviour
         this.damage = damage;
         this.count = count;
 
-        if (id == 0)
+        if (prefabId == 1)
         {
             Batch();
         }
@@ -43,9 +45,12 @@ public class Weapon : MonoBehaviour
 
     public void Init()
     {
-        switch (id)
+        switch (prefabId)
         { 
             case 0:
+                
+                break;
+            case 1:
                 speed = 150;
                 Batch();
                 break;

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    public GameManager gameManager;
     public float maxSpeed = 8f;
     public float acceleration = 1f;
     public float jumpPower = 15f;
@@ -96,17 +97,42 @@ public class PlayerMove : MonoBehaviour
                 OnDamaged(collision.transform.position);
             }
         }
-
-        if (collision.gameObject.CompareTag("Item"))
+        
+        else if (collision.gameObject.CompareTag("Item"))
         {
+            // Deactive Item
             collision.gameObject.SetActive(false);
+
+            // Point
+            bool isFire = collision.gameObject.name.Contains("Fire");
+            bool isWind = collision.gameObject.name.Contains("Wind");
+            bool isWater = collision.gameObject.name.Contains("Water");
+            if (isFire)
+            {
+                gameManager.stagePoint += 1;
+            }
+            else if (isWind)
+            {
+                gameManager.stagePoint += 1;
+            }
+            else if (isWater)
+            {
+                gameManager.stagePoint += 1;
+            }
+            
+        }
+
+        else if (collision.gameObject.CompareTag("Finish"))
+        { 
+            // next stage
+
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    /*private void OnTriggerEnter2D(Collider2D collision)
     {
         // 이런것도 있드라.
-    }
+    }*/
 
     bool OnJumpButtonDown()
     {

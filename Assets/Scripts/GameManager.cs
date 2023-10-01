@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject[] Stages;
 
+    [SerializeField] TMP_Text UIStageTime;
     [SerializeField] TMP_Text UIhealth;
     [SerializeField] TMP_Text UIPoint;
     [SerializeField] TMP_Text UIStage;
@@ -35,13 +36,6 @@ public class GameManager : MonoBehaviour
     {
         UIPoint.text = (totalPoint + stagePoint).ToString();
         UIhealth.text = (health).ToString();
-
-        gameTime += Time.deltaTime;
-
-        if (gameTime > maxGameTime)
-        {
-            gameTime = maxGameTime;
-        }
     }
 
     public void NextStage()
@@ -110,5 +104,10 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(0);
         Time.timeScale = 1;
+    }
+
+    public void setStageTime(float stageTime)
+    {
+        UIStageTime.text = Mathf.Floor(stageTime).ToString();
     }
 }

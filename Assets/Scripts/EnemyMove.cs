@@ -23,23 +23,21 @@ public class EnemyMove : MonoBehaviour
         //Think();
     }
 
-    private void Update()
-    {
-        
-    }
     private void FixedUpdate()
     {
         // 유저 방향으로 돌진
         distance = transform.position - player.transform.position;
-  
+
+        float moveSpeed = speed * Time.fixedDeltaTime * 60;
+
         if (distance.x < 0)
         {
-            rigid.velocity = new Vector2(speed, rigid.velocity.y);
+            rigid.velocity = new Vector2(moveSpeed, rigid.velocity.y);
             spriteRenderer.flipX = true;
         }
-        else 
+        else
         {
-            rigid.velocity = new Vector2(speed * -1, rigid.velocity.y);
+            rigid.velocity = new Vector2(moveSpeed * -1, rigid.velocity.y);
             spriteRenderer.flipX = false;
         }
 

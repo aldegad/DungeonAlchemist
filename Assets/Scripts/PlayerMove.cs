@@ -7,11 +7,20 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float acceleration = 1f;
     [SerializeField] float jumpPower = 15f;
 
+    // audio
+    [SerializeField] AudioClip audioJump;
+    [SerializeField] AudioClip audioAttack;
+    [SerializeField] AudioClip audioDamaged;
+    [SerializeField] AudioClip audioItem;
+    [SerializeField] AudioClip audioDie;
+    [SerializeField] AudioClip audioFinish;
+
     Rigidbody2D rigid;
     CapsuleCollider2D capsuleCollider;
     SpriteRenderer spriteRenderer;
     Animator animator;
-    bool jumpUp = false;
+    AudioSource audioSource;
+    //bool jumpUp = false;
     bool jumpDown = false;
     bool isDamage = false;
 
@@ -22,6 +31,7 @@ public class PlayerMove : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -30,6 +40,7 @@ public class PlayerMove : MonoBehaviour
         if (OnJumpButtonDown() && !animator.GetBool("isJump"))
         {
             rigid.velocity = Vector2.up * jumpPower;
+            PlaySound("JUMP");
             setJumpUp();
         }
 
@@ -52,7 +63,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         // Working
-        if (Mathf.Abs(rigid.velocity.x) > 0.1)
+        if (Mathf.Abs(rigid.velocity.x) > 0.2)
         {
             animator.SetBool("isWorking", true);
         }
@@ -64,7 +75,7 @@ public class PlayerMove : MonoBehaviour
         // Stop speed
         if (Input.GetButtonUp("Horizontal"))
         {
-            rigid.velocity = new Vector2(rigid.velocity.normalized.x * 0.1f, rigid.velocity.y);
+            rigid.velocity = new Vector2(0, rigid.velocity.y);
         }
 
         // Direction
@@ -73,18 +84,17 @@ public class PlayerMove : MonoBehaviour
             spriteRenderer.flipX = Input.GetAxisRaw("Horizontal") == -1;
         }
     }
-
-    // Update is called once per frame
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         // Move Speed
-        float h = Input.GetAxisRaw("Horizontal") * acceleration;
+        float h = Input.GetAxisRaw("Horizontal") * acceleration * Time.fixedDeltaTime * 60;
+        //Debug.Log(Input.GetAxisRaw("Horizontal"));
         rigid.AddForce(Vector2.right * h, ForceMode2D.Impulse);
 
         // Max Speed
-        if(Mathf.Abs(rigid.velocity.x) > maxSpeed)
+        if (Mathf.Abs(rigid.velocity.x) > maxSpeed)
         {
-            rigid.velocity = new Vector2 (rigid.velocity.normalized.x * maxSpeed, rigid.velocity.y);
+            rigid.velocity = new Vector2(rigid.velocity.normalized.x * maxSpeed, rigid.velocity.y);
         }
     }
 
@@ -112,6 +122,7 @@ public class PlayerMove : MonoBehaviour
             if (isPoint)
             {
                 gameManager.stagePoint += 1;
+                PlaySound("ITEM");
             }
         }
 
@@ -119,6 +130,8 @@ public class PlayerMove : MonoBehaviour
         {
             // next stage
             gameManager.NextStage();
+            PlaySound("FINISH");
+
         }
     }
 
@@ -149,20 +162,20 @@ public class PlayerMove : MonoBehaviour
 
     void setJumpUp()
     {
-        jumpUp = true;
+        //jumpUp = true;
         jumpDown = false;
         animator.SetBool("isJump", true);
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("PlatformJumpable"), true);
     }
     void setJumpDown()
     {
-        jumpUp = false;
+        //jumpUp = false;
         jumpDown = true;
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("PlatformJumpable"), false);
     }
     void setJumpEnd()
     {
-        jumpUp = false;
+        //jumpUp = false;
         jumpDown = false;
         animator.SetBool("isJump", false);
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("PlatformJumpable"), false);
@@ -186,6 +199,8 @@ public class PlayerMove : MonoBehaviour
         int dirc = transform.position.x - targetPos.x > 0 ? 1 : -1;
         rigid.velocity = new Vector2(dirc, 1)*10;
 
+        PlaySound("DAMAGED");
+
         Invoke("OffDamaged", 1);
     }
 
@@ -201,10 +216,36 @@ public class PlayerMove : MonoBehaviour
     {
         // Reaction Force
         rigid.velocity = Vector2.up * 10;
+        PlaySound("ATTACK");
 
         // Enemy Damaged
         /*EnemyMove enemyMove = enemy.GetComponent<EnemyMove>();
         enemyMove.OnDamaged();*/
+    }
+
+    void PlaySound(string action)
+    {
+        switch (action) {
+            case "JUMP":
+                audioSource.clip = audioJump;
+                break;
+            case "ATTACK":
+                audioSource.clip = audioAttack;
+                break;
+            case "DAMAGED":
+                audioSource.clip = audioDamaged;
+                break;
+            case "ITEM":
+                audioSource.clip = audioItem;
+                break;
+            case "DIE":
+                audioSource.clip = audioDie;
+                break;
+            case "FINISH":
+                audioSource.clip = audioFinish;
+                break;
+        }
+        audioSource.Play();
     }
 
     public void OnDie()
@@ -216,6 +257,8 @@ public class PlayerMove : MonoBehaviour
         capsuleCollider.enabled = false;
 
         rigid.velocity = Vector2.up * 5;
+
+        PlaySound("DIE");
     }
 
     public void VelocityZero()

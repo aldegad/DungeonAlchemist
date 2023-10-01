@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
-    public GameObject player;
-    float speed = 1f;
+    [SerializeField] GameObject player;
+    [SerializeField] float speed = 1f;
 
     //int nextMove;
 

@@ -2,20 +2,23 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public GameManager gameManager;
-    public float maxSpeed = 8f;
-    public float acceleration = 1f;
-    public float jumpPower = 15f;
+    [SerializeField] GameManager gameManager;
+    [SerializeField] float maxSpeed = 8f;
+    [SerializeField] float acceleration = 1f;
+    [SerializeField] float jumpPower = 15f;
 
     Rigidbody2D rigid;
+    CapsuleCollider2D capsuleCollider;
     SpriteRenderer spriteRenderer;
     Animator animator;
+    bool jumpUp = false;
     bool jumpDown = false;
 
     // Start is called before the first frame update
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
     }
@@ -26,24 +29,25 @@ public class PlayerMove : MonoBehaviour
         if (OnJumpButtonDown() && !animator.GetBool("isJump"))
         {
             rigid.velocity = Vector2.up * jumpPower;
-            animator.SetBool("isJump", true);
-            jumpDown = false;
+            setJumpUp();
         }
+
         if (rigid.velocity.y < 0)
         {
-            jumpDown = true;
+            setJumpDown();
         }
 
         // Landing Platform
         Debug.DrawRay(rigid.position, Vector3.down * 1.5f, new Color(1, 0, 0));
         if (rigid.velocity.y < 0)
         {
-            RaycastHit2D raycastHit = Physics2D.Raycast(rigid.position, Vector3.down, 1.5f, LayerMask.GetMask("Platform"));
+            int PlatformLayerMask = LayerMask.GetMask("Platform", "PlatformJumpable");
+            RaycastHit2D raycastHit = Physics2D.Raycast(rigid.position, Vector3.down, 1.5f, PlatformLayerMask);
 
             if (raycastHit.collider != null)
             {
-                animator.SetBool("isJump", false);
-                jumpDown = false;
+                
+                setJumpEnd();
             }
         }
 
@@ -104,28 +108,17 @@ public class PlayerMove : MonoBehaviour
             collision.gameObject.SetActive(false);
 
             // Point
-            bool isFire = collision.gameObject.name.Contains("Fire");
-            bool isWind = collision.gameObject.name.Contains("Wind");
-            bool isWater = collision.gameObject.name.Contains("Water");
-            if (isFire)
+            bool isPoint = collision.gameObject.name.Contains("Point");
+            if (isPoint)
             {
                 gameManager.stagePoint += 1;
             }
-            else if (isWind)
-            {
-                gameManager.stagePoint += 1;
-            }
-            else if (isWater)
-            {
-                gameManager.stagePoint += 1;
-            }
-            
         }
 
         else if (collision.gameObject.CompareTag("Finish"))
-        { 
+        {
             // next stage
-
+            gameManager.NextStage();
         }
     }
 
@@ -154,8 +147,34 @@ public class PlayerMove : MonoBehaviour
         return false;
     }
 
+    void setJumpUp()
+    {
+        jumpUp = true;
+        jumpDown = false;
+        animator.SetBool("isJump", true);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("PlatformJumpable"), true);
+    }
+    void setJumpDown()
+    {
+        jumpUp = false;
+        jumpDown = true;
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("PlatformJumpable"), false);
+    }
+    void setJumpEnd()
+    {
+        jumpUp = false;
+        jumpDown = false;
+        animator.SetBool("isJump", false);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("PlatformJumpable"), false);
+    }
+
     void OnDamaged(Vector2 targetPos)
     {
+        Debug.Log("Damaged");
+        // Health Down
+        gameManager.HealthDown();
+
+        // Change Layer (Immortal Active)
         gameObject.layer = 11;
 
         // View Alpha
@@ -182,5 +201,16 @@ public class PlayerMove : MonoBehaviour
         // Enemy Damaged
         /*EnemyMove enemyMove = enemy.GetComponent<EnemyMove>();
         enemyMove.OnDamaged();*/
+    }
+
+    public void OnDie()
+    {
+        spriteRenderer.color = new Color(1, 1, 1, 0.4f);
+
+        spriteRenderer.flipY = true;
+
+        capsuleCollider.enabled = false;
+
+        rigid.velocity = Vector2.up * 5;
     }
 }

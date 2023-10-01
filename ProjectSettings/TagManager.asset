@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Item
+  - Platform
   layers:
   - Default
   - TransparentFX
@@ -14,8 +15,8 @@ TagManager:
   - Water
   - UI
   - 
-  - 
   - Platform
+  - PlatformJumpable
   - Enemy
   - Player
   - PlayerDamaged

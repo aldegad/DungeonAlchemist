@@ -7,7 +7,12 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
+    public float gameTime;
+    public float maxGameTime = 2 * 10f;
+
     public PlayerMove player;
+    public PoolManager pool;
     public int totalPoint;
     public int stagePoint;
     public int stageIndex;
@@ -30,6 +35,13 @@ public class GameManager : MonoBehaviour
     {
         UIPoint.text = (totalPoint + stagePoint).ToString();
         UIhealth.text = (health).ToString();
+
+        gameTime += Time.deltaTime;
+
+        if (gameTime > maxGameTime)
+        {
+            gameTime = maxGameTime;
+        }
     }
 
     public void NextStage()

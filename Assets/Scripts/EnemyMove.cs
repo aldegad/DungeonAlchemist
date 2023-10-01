@@ -5,6 +5,11 @@ using UnityEngine;
 public class EnemyMove : MonoBehaviour
 {
     [SerializeField] float speed = 1f;
+    [SerializeField] float health = 10f;
+    [SerializeField] float maxHealth = 10f;
+    [SerializeField] Rigidbody2D target;
+
+    bool isLive = false;
 
     //int nextMove;
 
@@ -25,7 +30,7 @@ public class EnemyMove : MonoBehaviour
     private void FixedUpdate()
     {
         // 유저 방향으로 돌진
-        distance = transform.position - GameManager.Instance.player.transform.position;
+        distance = transform.position - target.transform.position;
 
         float moveSpeed = speed * Time.fixedDeltaTime * 60;
 
@@ -51,6 +56,20 @@ public class EnemyMove : MonoBehaviour
         }
 
         spriteRenderer.flipX = nextMove == 1;*/
+    }
+
+    private void OnEnable()
+    {
+        target = GameManager.Instance.player.GetComponent<Rigidbody2D>();
+        isLive = true;
+        health = maxHealth;
+    }
+
+    public void Init(SpawnData data)
+    {
+        speed = speed * data.speed;
+        maxHealth = maxHealth * data.health;
+        health = maxHealth;
     }
 
     /*void FixedUpdate()

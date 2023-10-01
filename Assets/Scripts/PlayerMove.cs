@@ -19,7 +19,7 @@ public class PlayerMove : MonoBehaviour
     SpriteRenderer spriteRenderer;
     Animator animator;
     AudioSource audioSource;
-    bool jumpUp = false;
+    //bool jumpUp = false;
     bool jumpDown = false;
     bool isDamage = false;
 
@@ -48,7 +48,6 @@ public class PlayerMove : MonoBehaviour
             setJumpDown();
         }
 
-        if (jumpUp) { }
         // Landing Platform
         Debug.DrawRay(rigid.position + new Vector2(-0.5f, 0.3f), Vector2.right * 1f, new Color(1, 1, 0));
         Debug.DrawRay(rigid.position + new Vector2(-0.5f, 0.3f), Vector2.down * 1.25f, new Color(1, 1, 0));
@@ -176,19 +175,19 @@ public class PlayerMove : MonoBehaviour
 
     void setJumpUp()
     {
-        jumpUp = true;
+        //jumpUp = true;
         jumpDown = false;
         animator.SetBool("isJump", true);
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("PlatformJumpable"), true);
     }
     void setJumpDown()
     {
-        jumpUp = false;
+        //jumpUp = false;
         jumpDown = true;
     }
     void setJumpEnd()
     {
-        jumpUp = false;
+        //jumpUp = false;
         jumpDown = false;
         animator.SetBool("isJump", false);
     }

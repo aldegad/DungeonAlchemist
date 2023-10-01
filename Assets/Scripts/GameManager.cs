@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,12 +13,45 @@ public class GameManager : MonoBehaviour
     public int health = 10;
 
     [SerializeField] PlayerMove player;
+    [SerializeField] GameObject[] Stages;
 
-    // Start is called before the first frame update
+    [SerializeField] TMP_Text UIhealth;
+    [SerializeField] TMP_Text UIPoint;
+    [SerializeField] TMP_Text UIStage;
+    [SerializeField] GameObject UIRestartBtn;
+
+    private void Update()
+    {
+        UIPoint.text = (totalPoint + stagePoint).ToString();
+        UIhealth.text = (health).ToString();
+    }
+
     public void NextStage()
     {
-        stageIndex++;
+        // Change Stage
+        if (stageIndex < Stages.Length-1)
+        {
+            Stages[stageIndex].SetActive(false);
+            stageIndex++;
+            Stages[stageIndex].SetActive(true);
+            PlayerReposition();
 
+            UIStage.text = "STAGE" + (stageIndex + 1).ToString();
+        }
+        else
+        {
+            // Game Clear
+            // Player Control Lock
+            Time.timeScale = 0;
+            // Reset UI
+            
+            TMP_Text btnText = UIRestartBtn.GetComponentInChildren<TMP_Text>();
+            btnText.text = "Game Clear";
+            UIRestartBtn.SetActive(true);
+        }
+        
+
+        // Calculate Point
         totalPoint += stagePoint;
         stagePoint = 0;
     }
@@ -31,6 +66,7 @@ public class GameManager : MonoBehaviour
         if(health <= 0)
         {
             player.OnDie();
+            UIRestartBtn.SetActive(true);
         }
     }
 
@@ -41,10 +77,20 @@ public class GameManager : MonoBehaviour
             // Health Down
             HealthDown(99);
 
-            collision.attachedRigidbody.velocity = Vector2.zero;
+            PlayerReposition();
             collision.transform.position = new Vector2(0,0);
         }
     }
 
+    void PlayerReposition()
+    {
+        player.transform.position = new Vector2(0, 0);
+        player.VelocityZero();
+    }
 
+    public void Restart()
+    {
+        SceneManager.LoadScene(0);
+        Time.timeScale = 1;
+    }
 }

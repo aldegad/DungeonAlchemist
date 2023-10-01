@@ -13,6 +13,7 @@ public class PlayerMove : MonoBehaviour
     Animator animator;
     bool jumpUp = false;
     bool jumpDown = false;
+    bool isDamage = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -95,7 +96,7 @@ public class PlayerMove : MonoBehaviour
             {
                 OnAttack(collision.gameObject);
             }
-            else
+            else if(!isDamage)
             {
                 OnDamaged(collision.transform.position);
             }
@@ -169,12 +170,14 @@ public class PlayerMove : MonoBehaviour
 
     void OnDamaged(Vector2 targetPos)
     {
-        Debug.Log("Damaged");
+        isDamage = true;
         // Health Down
-        gameManager.HealthDown();
+        gameManager.HealthDown(1);
 
         // Change Layer (Immortal Active)
-        gameObject.layer = 11;
+        // gameObject.layer = 11;
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
+
 
         // View Alpha
         spriteRenderer.color = new Color(1, 1, 1, 0.4f);
@@ -188,8 +191,10 @@ public class PlayerMove : MonoBehaviour
 
     void OffDamaged()
     {
-        gameObject.layer = 10;
+        // gameObject.layer = 10;
         spriteRenderer.color = new Color(1, 1, 1, 1);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        isDamage = false;
     }
 
     void OnAttack(GameObject enemy)
@@ -211,5 +216,10 @@ public class PlayerMove : MonoBehaviour
         capsuleCollider.enabled = false;
 
         rigid.velocity = Vector2.up * 5;
+    }
+
+    public void VelocityZero()
+    {
+        rigid.velocity = Vector2.zero;
     }
 }

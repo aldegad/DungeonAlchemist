@@ -95,8 +95,17 @@ public class PlayerMove : MonoBehaviour
             {
                 OnDamaged(collision.transform.position);
             }
-            
         }
+
+        if (collision.gameObject.CompareTag("Item"))
+        {
+            collision.gameObject.SetActive(false);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // 이런것도 있드라.
     }
 
     bool OnJumpButtonDown()

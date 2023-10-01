@@ -11,6 +11,7 @@ public class EnemyMove : MonoBehaviour
 
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
+    CapsuleCollider2D collision;
     Vector2 distance = new Vector2();
 
     
@@ -18,7 +19,7 @@ public class EnemyMove : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-
+        collision = GetComponent<CapsuleCollider2D>();
         //Think();
     }
 
@@ -83,4 +84,22 @@ public class EnemyMove : MonoBehaviour
             Think();
         }
     }*/
+
+    public void OnDamaged()
+    {
+        spriteRenderer.color = new Color(1,1,1,0.4f);
+
+        spriteRenderer.flipY = true;
+
+        collision.enabled = false;
+
+        rigid.velocity = Vector2.up * 5;
+
+        Invoke("DeActive", 3);
+    }
+
+    void DeActive()
+    { 
+        gameObject.SetActive(false);
+    }
 }

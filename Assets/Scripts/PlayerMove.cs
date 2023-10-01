@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -11,6 +9,7 @@ public class PlayerMove : MonoBehaviour
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
     Animator animator;
+    bool jumpDown = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -23,11 +22,28 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         //Jump
-        if (Input.GetButtonDown("Jump") && !animator.GetBool("isJump"))
+        if (OnJumpButtonDown() && !animator.GetBool("isJump"))
         {
-            // 점프를 일정하게 뛰지 않는 버그가 있는 듯
             rigid.velocity = Vector2.up * jumpPower;
             animator.SetBool("isJump", true);
+            jumpDown = false;
+        }
+        if (rigid.velocity.y < 0)
+        {
+            jumpDown = true;
+        }
+
+        // Landing Platform
+        Debug.DrawRay(rigid.position, Vector3.down * 1.5f, new Color(1, 0, 0));
+        if (rigid.velocity.y < 0)
+        {
+            RaycastHit2D raycastHit = Physics2D.Raycast(rigid.position, Vector3.down, 1.5f, LayerMask.GetMask("Platform"));
+
+            if (raycastHit.collider != null)
+            {
+                animator.SetBool("isJump", false);
+                jumpDown = false;
+            }
         }
 
         // Working
@@ -56,8 +72,6 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        
-
         // Move Speed
         float h = Input.GetAxisRaw("Horizontal") * acceleration;
         rigid.AddForce(Vector2.right * h, ForceMode2D.Impulse);
@@ -67,35 +81,42 @@ public class PlayerMove : MonoBehaviour
         {
             rigid.velocity = new Vector2 (rigid.velocity.normalized.x * maxSpeed, rigid.velocity.y);
         }
-
-        // Landing Platform
-        Debug.DrawRay(rigid.position, Vector3.down * 1.5f, new Color(0, 1, 0));
-        if (rigid.velocity.y < 0)
-        {
-            RaycastHit2D raycastHit = Physics2D.Raycast(rigid.position, Vector3.down, 1.5f, LayerMask.GetMask("Platform"));
-
-            if (raycastHit.collider != null)
-            {
-                animator.SetBool("isJump", false);
-            }
-        }
-        
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == 9 && gameObject.layer == 10) // enemy is 9
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-            if (rigid.velocity.y < 0 && transform.position.y > collision.transform.position.y)
+            if (jumpDown && transform.position.y > collision.transform.position.y)
             {
-
+                OnAttack(collision.gameObject);
             }
-            else 
+            else
             {
                 OnDamaged(collision.transform.position);
             }
             
         }
+    }
+
+    bool OnJumpButtonDown()
+    {
+        if (Input.GetButtonDown("Jump")) return true;
+
+        float verticalInput = Input.GetAxisRaw("Vertical");
+        if (Input.GetButtonDown("Vertical"))
+        {
+            if (verticalInput > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        return false;
     }
 
     void OnDamaged(Vector2 targetPos)
@@ -118,8 +139,13 @@ public class PlayerMove : MonoBehaviour
         spriteRenderer.color = new Color(1, 1, 1, 1);
     }
 
-    void OnAttack()
-    { 
-    
+    void OnAttack(GameObject enemy)
+    {
+        // Reaction Force
+        rigid.velocity = Vector2.up * 10;
+
+        // Enemy Damaged
+        /*EnemyMove enemyMove = enemy.GetComponent<EnemyMove>();
+        enemyMove.OnDamaged();*/
     }
 }

@@ -25,7 +25,8 @@ public class PlayerMove : MonoBehaviour
         //Jump
         if (Input.GetButtonDown("Jump") && !animator.GetBool("isJump"))
         {
-            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            // 점프를 일정하게 뛰지 않는 버그가 있는 듯
+            rigid.velocity = Vector2.up * jumpPower;
             animator.SetBool("isJump", true);
         }
 
@@ -85,7 +86,15 @@ public class PlayerMove : MonoBehaviour
     {
         if (collision.gameObject.layer == 9 && gameObject.layer == 10) // enemy is 9
         {
-            OnDamaged(collision.transform.position);
+            if (rigid.velocity.y < 0 && transform.position.y > collision.transform.position.y)
+            {
+
+            }
+            else 
+            {
+                OnDamaged(collision.transform.position);
+            }
+            
         }
     }
 
@@ -107,5 +116,10 @@ public class PlayerMove : MonoBehaviour
     {
         gameObject.layer = 10;
         spriteRenderer.color = new Color(1, 1, 1, 1);
+    }
+
+    void OnAttack()
+    { 
+    
     }
 }

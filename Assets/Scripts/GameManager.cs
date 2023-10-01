@@ -6,6 +6,7 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
     public int totalPoint;
     public int stagePoint;
     public int stageIndex;
@@ -20,7 +21,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text UIStage;
     [SerializeField] GameObject UIRestartBtn;
 
-    private void Update()
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    void Update()
     {
         UIPoint.text = (totalPoint + stagePoint).ToString();
         UIhealth.text = (health).ToString();

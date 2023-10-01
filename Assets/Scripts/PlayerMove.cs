@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    [SerializeField] GameManager gameManager;
     [SerializeField] float maxSpeed = 8f;
     [SerializeField] float acceleration = 1f;
     [SerializeField] float jumpPower = 15f;
@@ -121,7 +120,7 @@ public class PlayerMove : MonoBehaviour
             bool isPoint = collision.gameObject.name.Contains("Point");
             if (isPoint)
             {
-                gameManager.stagePoint += 1;
+                GameManager.Instance.stagePoint += 1;
                 PlaySound("ITEM");
             }
         }
@@ -129,7 +128,7 @@ public class PlayerMove : MonoBehaviour
         else if (collision.gameObject.CompareTag("Finish"))
         {
             // next stage
-            gameManager.NextStage();
+            GameManager.Instance.NextStage();
             PlaySound("FINISH");
 
         }
@@ -185,7 +184,7 @@ public class PlayerMove : MonoBehaviour
     {
         isDamage = true;
         // Health Down
-        gameManager.HealthDown(1);
+        GameManager.Instance.HealthDown(1);
 
         // Change Layer (Immortal Active)
         // gameObject.layer = 11;

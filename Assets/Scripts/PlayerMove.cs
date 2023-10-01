@@ -19,7 +19,7 @@ public class PlayerMove : MonoBehaviour
     SpriteRenderer spriteRenderer;
     Animator animator;
     AudioSource audioSource;
-    //bool jumpUp = false;
+    bool jumpUp = false;
     bool jumpDown = false;
     bool isDamage = false;
 
@@ -48,18 +48,34 @@ public class PlayerMove : MonoBehaviour
             setJumpDown();
         }
 
+        if (jumpUp) { }
         // Landing Platform
-        Debug.DrawRay(rigid.position, Vector3.down * 1.5f, new Color(1, 0, 0));
-        if (rigid.velocity.y < 0)
-        {
-            int PlatformLayerMask = LayerMask.GetMask("Platform", "PlatformJumpable");
-            RaycastHit2D raycastHit = Physics2D.Raycast(rigid.position, Vector3.down, 1.5f, PlatformLayerMask);
+        Debug.DrawRay(rigid.position + new Vector2(-0.5f, 0.3f), Vector2.right * 1f, new Color(1, 1, 0));
+        Debug.DrawRay(rigid.position + new Vector2(-0.5f, 0.3f), Vector2.down * 1.25f, new Color(1, 1, 0));
+        Debug.DrawRay(rigid.position + new Vector2(0.5f, 0.3f), Vector2.down * 1.25f, new Color(1, 1, 0));
+        Debug.DrawRay(rigid.position + new Vector2(-0.5f, -0.95f), Vector2.right * 1f, new Color(1, 1, 0));
+        Debug.DrawRay(rigid.position, Vector2.down * 1.2f, new Color(1, 0, 0));
 
-            if (raycastHit.collider != null)
+        int PlatformLayerMask = LayerMask.GetMask("Platform", "PlatformJumpable");
+
+        RaycastHit2D raycastHitTop = Physics2D.Raycast(rigid.position + new Vector2(-0.5f, 0.3f), Vector2.right, 1f, PlatformLayerMask);
+        RaycastHit2D raycastHitLeft = Physics2D.Raycast(rigid.position + new Vector2(-0.5f, 0.3f), Vector2.down, 1.25f, PlatformLayerMask);
+        RaycastHit2D raycastHitRight = Physics2D.Raycast(rigid.position + new Vector2(0.5f, 0.3f), Vector2.down, 1.25f, PlatformLayerMask);
+        RaycastHit2D raycastHitBottom = Physics2D.Raycast(rigid.position + new Vector2(-0.5f, -0.95f), Vector2.right, 1f, PlatformLayerMask);
+        if (!raycastHitTop.collider && !raycastHitLeft.collider && !raycastHitRight.collider && !raycastHitBottom.collider)
+        {
+            if (rigid.velocity.y < 0)
             {
-                setJumpEnd();
+                Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("PlatformJumpable"), false);
+                RaycastHit2D raycastHit = Physics2D.Raycast(rigid.position, Vector2.down, 1.2f, PlatformLayerMask);
+
+                if (raycastHit.collider != null)
+                {
+                    setJumpEnd();
+                }
             }
         }
+
 
         // Working
         if (Mathf.Abs(rigid.velocity.x) > 0.2)
@@ -130,7 +146,6 @@ public class PlayerMove : MonoBehaviour
             // next stage
             GameManager.Instance.NextStage();
             PlaySound("FINISH");
-
         }
     }
 
@@ -161,23 +176,21 @@ public class PlayerMove : MonoBehaviour
 
     void setJumpUp()
     {
-        //jumpUp = true;
+        jumpUp = true;
         jumpDown = false;
         animator.SetBool("isJump", true);
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("PlatformJumpable"), true);
     }
     void setJumpDown()
     {
-        //jumpUp = false;
+        jumpUp = false;
         jumpDown = true;
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("PlatformJumpable"), false);
     }
     void setJumpEnd()
     {
-        //jumpUp = false;
+        jumpUp = false;
         jumpDown = false;
         animator.SetBool("isJump", false);
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("PlatformJumpable"), false);
     }
 
     void OnDamaged(Vector2 targetPos)

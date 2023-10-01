@@ -1795,19 +1795,19 @@ MonoBehaviour:
   - spawnEnemyPrefabIndex: 0
     maxSpawnCount: 10
     spawnDelay: 1
-    spawnCycle: 1
+    spawnCycle: 0.2
     health: 1
     speed: 1
     lastSpawnTime: 0
-    spawnCount: 20
+    spawnCount: 0
   - spawnEnemyPrefabIndex: 1
     maxSpawnCount: 10
-    spawnDelay: 3
-    spawnCycle: 1
+    spawnDelay: 5
+    spawnCycle: 0.1
     health: 1
     speed: 1
     lastSpawnTime: 0
-    spawnCount: 10
+    spawnCount: 0
 --- !u!1 &191041579
 GameObject:
   m_ObjectHideFlags: 0
@@ -5856,8 +5856,10 @@ GameObject:
   - component: {fileID: 1137864476}
   - component: {fileID: 1137864475}
   - component: {fileID: 1137864474}
+  - component: {fileID: 1137864478}
+  - component: {fileID: 1137864477}
   m_Layer: 0
-  m_Name: weapon_bee
+  m_Name: Weapon_Bee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5945,12 +5947,61 @@ Transform:
   m_GameObject: {fileID: 1137864473}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.247663, y: -1.6351111, z: 0.30959755}
+  m_LocalPosition: {x: -2.4, y: 1.94, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1816175562}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &1137864477
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1137864473}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.18
+--- !u!114 &1137864478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1137864473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3b5c1eda091f1146bb384419b3c75b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  per: 0
 --- !u!1 &1152293965
 GameObject:
   m_ObjectHideFlags: 0
@@ -9412,7 +9463,6 @@ Transform:
   - {fileID: 669399715}
   - {fileID: 1197756426}
   - {fileID: 212507493}
-  - {fileID: 1137864476}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1862997261
@@ -12901,6 +12951,7 @@ SceneRoots:
   - {fileID: 805928211}
   - {fileID: 1429611456}
   - {fileID: 1460836990}
+  - {fileID: 1137864476}
   - {fileID: 1816175562}
   - {fileID: 72633460}
   - {fileID: 1916209270}

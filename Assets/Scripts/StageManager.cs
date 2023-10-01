@@ -22,7 +22,7 @@ public class Spawner : MonoBehaviour
         stageTime += Time.deltaTime;
         level = Mathf.FloorToInt(GameManager.Instance.gameTime / 10f);
 
-        // 스테이지 시간 표시\
+        // 스테이지 시간 표시
         GameManager.Instance.setStageTime(maxStageTime - stageTime);
 
         // 각 몹 리젠
@@ -30,21 +30,28 @@ public class Spawner : MonoBehaviour
         {
             SpawnData data = spawnData[i];
 
-            Debug.Log(i + ": " + (data.lastSpawnTime + data.spawnDelay + data.spawnCycle).ToString() + " / " + stageTime);
-
-            if (data.lastSpawnTime + data.spawnDelay + data.spawnCycle < stageTime)
+            // Debug.Log(i + ": " + (data.lastSpawnTime + data.spawnDelay + data.spawnCycle).ToString() + " / " + stageTime);
+            if (data.spawnDelay > stageTime) 
             {
-                data.lastSpawnTime = stageTime;
-                data.spawnCount++;
-                Spawn(data.spawnEnemyPrefabIndex);
+                data.lastSpawnTime = data.spawnDelay;
+            }
+            else if (data.spawnCount < data.maxSpawnCount)
+            {
+                if (data.lastSpawnTime + data.spawnCycle < stageTime)
+                {
+                    data.lastSpawnTime = stageTime;
+                    data.spawnCount++;
+                    Spawn(data);
+                }
             }
         }
     }
 
-    void Spawn(int index)
+    void Spawn(SpawnData data)
     {
-        GameObject enemy = GameManager.Instance.pool.Get(index);
+        GameObject enemy = GameManager.Instance.pool.Get(data.spawnEnemyPrefabIndex);
         enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
+        enemy.GetComponent<EnemyMove>().Init(data);
     }
 }
 

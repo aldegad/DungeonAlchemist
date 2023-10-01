@@ -72,35 +72,6 @@ public class EnemyMove : MonoBehaviour
         health = maxHealth;
     }
 
-    /*void FixedUpdate()
-    {
-        rigid.velocity = new Vector2(nextMove, rigid.velocity.y);
-
-        // Platform Check
-        Vector2 frontVec = new Vector2(rigid.position.x + nextMove*0.2f, rigid.position.y);
-        Debug.DrawRay(frontVec, Vector3.down * 1.5f, new Color(0, 1, 0));
-        RaycastHit2D raycastHit = Physics2D.Raycast(frontVec, Vector3.down, 1.5f, LayerMask.GetMask("Platform"));
-
-        if (raycastHit.collider == null)
-        {
-            nextMove = nextMove * -1;
-        }
-
-        spriteRenderer.flipX = nextMove == 1;
-    }
-
-    void Think()
-    {
-        
-        // ÁÂ¿ì ¼øÂû ·ÎÁ÷
-        nextMove = Random.Range(-1, 2);
-
-        if (nextMove == 0)
-        {
-            Think();
-        }
-    }*/
-
     public void OnDamaged()
     {
         spriteRenderer.color = new Color(1,1,1,0.4f);
@@ -114,8 +85,28 @@ public class EnemyMove : MonoBehaviour
         Invoke("DeActive", 3);
     }
 
-    void DeActive()
-    { 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.CompareTag("Bullet"))
+        {
+            return;
+        }
+
+        health -= collision.GetComponent<Bullet>().damage;
+
+        if (health > 0)
+        {
+            // ... Live, Hit Action
+        }
+        else
+        {
+            // ... Die
+            Dead();
+        }
+    }
+
+    void Dead()
+    {
         gameObject.SetActive(false);
     }
 }

@@ -156,7 +156,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &431720
 Animator:
@@ -1605,7 +1604,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &38571253
 Animator:
@@ -1775,7 +1773,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &40848784
 Animator:
@@ -1960,7 +1957,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &52566086
 Animator:
@@ -2875,7 +2871,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &288217450
 Animator:
@@ -3329,7 +3324,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!1 &356818608
 GameObject:
@@ -3512,7 +3506,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!50 &375146371
 Rigidbody2D:
@@ -3923,7 +3916,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &465082368
 Animator:
@@ -4108,7 +4100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &512648655
 Animator:
@@ -4256,6 +4247,8 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 10
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4302,11 +4295,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 1
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -4331,12 +4324,72 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2, y: -1.96, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1460836990}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AssetsPPU: 64
+  m_RefResolutionX: 500
+  m_RefResolutionY: 500
+  m_UpscaleRT: 0
+  m_PixelSnapping: 0
+  m_CropFrameX: 0
+  m_CropFrameY: 0
+  m_StretchFill: 0
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowDebugText: 0
+  m_ShowCameraFrustum: 1
+  m_IgnoreTimeScale: 0
+  m_WorldUpOverride: {fileID: 0}
+  m_UpdateMethod: 0
+  m_BlendUpdateMethod: 1
+  m_DefaultBlend:
+    m_Style: 0
+    m_Time: 2
+    m_CustomCurve:
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_CustomBlends: {fileID: 0}
+  m_OutputCamera: {fileID: 519420031}
+  m_TargetOverride: {fileID: 0}
+  m_CameraCutEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_CallsDirty: 1
+  m_CameraActivatedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_CallsDirty: 1
+  m_LastFrameUpdated: 0
+  mNextFrameId: 1
+  mActiveCameraPreviousFrameGameObject: {fileID: 0}
 --- !u!1 &571620281
 GameObject:
   m_ObjectHideFlags: 0
@@ -4385,7 +4438,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &571620284
 Animator:
@@ -4570,7 +4622,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &579057692
 Animator:
@@ -5891,11 +5942,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 663f53bba7e578c4c8bdd3607c9b69b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1460836994}
   totalPoint: 0
   stagePoint: 0
   stageIndex: 0
   health: 10
-  player: {fileID: 1460836994}
   Stages:
   - {fileID: 1816175561}
   - {fileID: 72633459}
@@ -5997,7 +6048,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &819032465
 Animator:
@@ -8349,7 +8399,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &1239374457
 Animator:
@@ -9614,7 +9663,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77a93d1107cf5b54b921451459cda2b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 805928212}
   maxSpeed: 8
   acceleration: 1
   jumpPower: 20
@@ -9768,7 +9816,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &1570038844
 Animator:
@@ -9953,7 +10000,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &1651039461
 Animator:
@@ -10363,7 +10409,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &1900368391
 Animator:
@@ -10609,7 +10654,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &1916542387
 Animator:
@@ -11343,7 +11387,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &1938401074
 Animator:
@@ -11676,7 +11719,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &1946988442
 Animator:
@@ -11846,7 +11888,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &1956251970
 Animator:
@@ -12342,7 +12383,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1460836988}
   speed: 1
 --- !u!95 &2086698638
 Animator:

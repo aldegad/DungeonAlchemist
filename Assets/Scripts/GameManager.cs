@@ -7,13 +7,13 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public PlayerMove player;
     public int totalPoint;
     public int stagePoint;
     public int stageIndex;
 
     public int health = 10;
 
-    [SerializeField] PlayerMove player;
     [SerializeField] GameObject[] Stages;
 
     [SerializeField] TMP_Text UIhealth;

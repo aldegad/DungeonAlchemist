@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
-    [SerializeField] GameObject player;
     [SerializeField] float speed = 1f;
 
     //int nextMove;
@@ -26,7 +25,7 @@ public class EnemyMove : MonoBehaviour
     private void FixedUpdate()
     {
         // 유저 방향으로 돌진
-        distance = transform.position - player.transform.position;
+        distance = transform.position - GameManager.Instance.player.transform.position;
 
         float moveSpeed = speed * Time.fixedDeltaTime * 60;
 

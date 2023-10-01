@@ -46,7 +46,6 @@ public class PlayerMove : MonoBehaviour
 
             if (raycastHit.collider != null)
             {
-                
                 setJumpEnd();
             }
         }

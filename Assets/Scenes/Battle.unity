@@ -3458,7 +3458,7 @@ MonoBehaviour:
   prefabId: 2
   damage: 2
   count: 1
-  attackSpeed: 0.3
+  attackSpeed: 0.5
   penetrate: 1
   range: 5
 --- !u!1 &776503354
@@ -3791,6 +3791,8 @@ MonoBehaviour:
   UIPoint: {fileID: 793696044}
   UIStage: {fileID: 776503356}
   UIRestartBtn: {fileID: 86600965}
+  EnemyDefaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  EnemyDamagedMaterial: {fileID: 2100000, guid: c519e669b8cf13144b5d46999d62da72, type: 2}
 --- !u!61 &805928213
 BoxCollider2D:
   m_ObjectHideFlags: 0

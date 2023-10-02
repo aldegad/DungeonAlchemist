@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5985400560492659579}
   - component: {fileID: -2959663916596906591}
   - component: {fileID: 5974722786420155911}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Weapon_Bomb
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -184,4 +184,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  per: 0
+  penetrate: 0
+  range: 0

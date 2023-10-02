@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2936427376840038487}
   - component: {fileID: 8663884447504046609}
   - component: {fileID: 6782830934087964095}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Weapon_Fireball
   m_TagString: Bullet
   m_Icon: {fileID: 0}

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6425578504084160571}
   - component: {fileID: 870652658356501806}
   - component: {fileID: 6948644498043669557}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Weapon_Bee
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -156,4 +156,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  per: 0
+  penetrate: 0
+  range: 0

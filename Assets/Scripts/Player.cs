@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerMove : MonoBehaviour
+public class Player : MonoBehaviour
 {
     [SerializeField] float maxSpeed = 8f;
     [SerializeField] float acceleration = 1f;

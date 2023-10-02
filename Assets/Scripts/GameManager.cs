@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public float gameTime;
     public float maxGameTime = 2 * 10f;
 
-    public PlayerMove player;
+    public Player player;
     public PoolManager pool;
     public int totalPoint;
     public int stagePoint;
@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text UIPoint;
     [SerializeField] TMP_Text UIStage;
     [SerializeField] GameObject UIRestartBtn;
+
+    public Material EnemyDefaultMaterial;
+    public Material EnemyDamagedMaterial;
 
     private void Awake()
     {

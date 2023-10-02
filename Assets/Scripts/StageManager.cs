@@ -8,9 +8,7 @@ public class SpageManager : MonoBehaviour
     public SpawnData[] spawnData;
 
     Transform[] spawnPoint;
-    int level;
     float stageTime;
-    float timer;
 
     private void Awake()
     {
@@ -20,7 +18,6 @@ public class SpageManager : MonoBehaviour
     {
 
         stageTime += Time.deltaTime;
-        level = Mathf.FloorToInt(GameManager.Instance.gameTime / 10f);
 
         // 스테이지 시간 표시
         GameManager.Instance.setStageTime(maxStageTime - stageTime);
@@ -51,7 +48,7 @@ public class SpageManager : MonoBehaviour
     {
         GameObject enemy = GameManager.Instance.pool.GetEnemy(data.spawnEnemyPrefabIndex);
         enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
-        enemy.GetComponent<EnemyMove>().Init(data);
+        enemy.GetComponent<Enemy>().Init(data);
     }
 }
 

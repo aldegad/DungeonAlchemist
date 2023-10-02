@@ -28,10 +28,10 @@ public class Weapon : MonoBehaviour
 
                 if (timer > attackSpeed)
                 {
-                    BeeFire();
+                    BombFire();
                     for (int i = 0; i < count; i++)
                     {
-                        Invoke("BeeFire", i * 0.1f + 1);
+                        Invoke("BombFire", i * 0.1f + 1);
                     }
                     timer = 0f;
                 }
@@ -118,7 +118,7 @@ public class Weapon : MonoBehaviour
 
 
     // 1 - Bee
-    void BeeFire()
+    void BombFire()
     {
         if (!GameManager.Instance.player.scanner.nearestTarget)
         {

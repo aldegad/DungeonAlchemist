@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour
+public class SpageManager : MonoBehaviour
 {
     public float maxStageTime = 20f;
     public SpawnData[] spawnData;

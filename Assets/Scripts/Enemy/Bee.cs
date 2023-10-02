@@ -4,19 +4,9 @@ using UnityEngine;
 
 public class Bee : EnemyData
 {
-    Rigidbody2D rigid;
-    SpriteRenderer spriteRenderer;
-    Vector2 distance;
-
-    private void Awake()
-    {
-        rigid = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        distance = Vector2.zero;
-    }
     public override void OnInit()
     {
-        rigid = GetComponent<Rigidbody2D>();
+        OnReset();
         rigid.gravityScale = 0;
     }
     public override void OnMove(Rigidbody2D target, float speed)

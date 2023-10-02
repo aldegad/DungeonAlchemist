@@ -128,6 +128,24 @@ public class Enemy : MonoBehaviour
 
 public class EnemyData : MonoBehaviour
 {
+    protected Rigidbody2D rigid;
+    protected SpriteRenderer spriteRenderer;
+    protected Vector2 distance;
+    protected Animator animator;
+
+    void Awake()
+    {
+        OnReset();
+    }
+
+    public void OnReset()
+    {
+        rigid = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        distance = Vector2.zero;
+        animator = GetComponent<Animator>();
+    }
+
     public virtual void OnInit() {}
     public virtual void OnMove(Rigidbody2D target, float speed) {}
 }

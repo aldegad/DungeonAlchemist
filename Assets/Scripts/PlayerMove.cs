@@ -14,6 +14,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] AudioClip audioDie;
     [SerializeField] AudioClip audioFinish;
 
+    public Scanner scanner;
+
     Rigidbody2D rigid;
     CapsuleCollider2D capsuleCollider;
     SpriteRenderer spriteRenderer;

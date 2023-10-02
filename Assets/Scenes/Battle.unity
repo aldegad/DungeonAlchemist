@@ -3362,6 +3362,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1816175562}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &741367644
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 741367645}
+  - component: {fileID: 741367646}
+  m_Layer: 10
+  m_Name: Weapon 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &741367645
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 741367644}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.009, y: -0.438, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1460836990}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &741367646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 741367644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7021eb8a45dab46ab47c4f53a0e579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 2
+  damage: 5
+  count: 1
+  attackSpeed: 0.5
+  penetrate: 1
+  range: 5
 --- !u!1 &776503354
 GameObject:
   m_ObjectHideFlags: 0
@@ -3935,7 +3985,7 @@ GameObject:
   - component: {fileID: 1008143050}
   - component: {fileID: 1008143051}
   m_Layer: 10
-  m_Name: Weapon
+  m_Name: Weapon 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3968,10 +4018,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7021eb8a45dab46ab47c4f53a0e579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabId: 1
-  damage: 11
-  count: 5
-  speed: 0
+  prefabId: 0
+  damage: 10
+  count: 2
+  attackSpeed: 0.8
+  penetrate: 0
+  range: -1
 --- !u!1 &1120536170
 GameObject:
   m_ObjectHideFlags: 0
@@ -6161,6 +6213,56 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1281419302
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1281419303}
+  - component: {fileID: 1281419304}
+  m_Layer: 10
+  m_Name: Weapon 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1281419303
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1281419302}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.009, y: -0.438, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1460836990}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1281419304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1281419302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7021eb8a45dab46ab47c4f53a0e579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 1
+  damage: 10
+  count: 5
+  attackSpeed: 150
+  penetrate: -1
+  range: 5
 --- !u!1 &1340881792
 GameObject:
   m_ObjectHideFlags: 0
@@ -6268,8 +6370,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefabs:
-  - {fileID: 5227572628086678772, guid: 9078e44091be0264687f66ca8fc58baf, type: 3}
+  - {fileID: 7382630230565111849, guid: ca1005de1fd0e9a4d96db24f40bfb54f, type: 3}
   - {fileID: 1507992221621541253, guid: 184c970fe61248844b5b09e6aa69ec00, type: 3}
+  - {fileID: 1438339616673546052, guid: 40655372fffa6274fbc4dde8de052b34, type: 3}
   EnemyPrefabs:
   - {fileID: 522240927933300196, guid: 4d234d50e530b2f498277ff34c3fa5ac, type: 3}
   - {fileID: 932272035620030900, guid: a4c32e69d8ce76a4b9065441f0ae2ac0, type: 3}
@@ -6362,6 +6465,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1008143050}
+  - {fileID: 1281419303}
+  - {fileID: 741367645}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &1460836991
@@ -6468,6 +6573,7 @@ MonoBehaviour:
   audioItem: {fileID: 8300000, guid: 79180f511d89441b9aa23ccae1992fe0, type: 3}
   audioDie: {fileID: 8300000, guid: a0010a1a0c474473b81729eb770c485f, type: 3}
   audioFinish: {fileID: 8300000, guid: 7478151cf36724a7dada558f746c3633, type: 3}
+  scanner: {fileID: 1460836996}
 --- !u!82 &1460836995
 AudioSource:
   m_ObjectHideFlags: 0

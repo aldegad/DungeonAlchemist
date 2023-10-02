@@ -7,9 +7,13 @@ public class Weapon : MonoBehaviour
     public int prefabId;
     public float damage;
     public int count;
-    public float speed;
+    public float attackSpeed;
+    public int penetrate;
+    public float range = 10;
 
-    private void Start()
+    float timer;
+
+    void Start()
     {
         Init();
     }
@@ -20,10 +24,33 @@ public class Weapon : MonoBehaviour
         switch (prefabId)
         {
             case 0:
-                
+                timer += Time.deltaTime;
+
+                if (timer > attackSpeed)
+                {
+                    BeeFire();
+                    for (int i = 0; i < count; i++)
+                    {
+                        Invoke("BeeFire", i * 0.1f + 1);
+                    }
+                    timer = 0f;
+                }
                 break;
             case 1:
-                transform.Rotate(Vector3.forward * speed * Time.deltaTime);
+                transform.Rotate(Vector3.forward * attackSpeed * Time.deltaTime);
+                break;
+            case 2:
+                timer += Time.deltaTime;
+
+                if (timer > attackSpeed)
+                {
+                    FireballFire();
+                    for (int i = 0; i < count; i++)
+                    {
+                        Invoke("FireballFire", i * 0.1f + 1);
+                    }
+                    timer = 0f;
+                }
                 break;
             default:
                 break;
@@ -51,13 +78,15 @@ public class Weapon : MonoBehaviour
                 
                 break;
             case 1:
-                speed = 150;
                 Batch();
                 break;
+
             default:
                 break;
         }
     }
+
+    // 0 - Portion
     void Batch()
     {
         for (int i = 0; i < count; i++)
@@ -76,14 +105,68 @@ public class Weapon : MonoBehaviour
             }
             bullet.parent = transform;
 
-            bullet.localPosition = Vector3.zero;
+            bullet.localPosition = Vector2.zero;
             bullet.localRotation = Quaternion.identity;
 
             Vector3 rotVec = Vector3.forward * 360 * i / count;
             bullet.Rotate(rotVec);
             bullet.Translate(bullet.up * 1.5f, Space.World);
 
-            bullet.GetComponent<Bullet>().Init(damage, -1); // -1 is Infinity Per.
+            bullet.GetComponent<Bullet>().Init(damage, -1, -1); // -1 is Infinity Per.
         }
+    }
+
+
+    // 1 - Bee
+    void BeeFire()
+    {
+        if (!GameManager.Instance.player.scanner.nearestTarget)
+        {
+            return;
+        }
+
+        Vector3 targetPos = GameManager.Instance.player.scanner.nearestTarget.position;
+        Vector3 dir = targetPos - transform.position;
+        float forceX = (dir.x > 10 ? 10 : dir.x) * 0.8f;
+
+        Transform bullet = GameManager.Instance.pool.GetBullet(prefabId).transform;
+
+        bullet.parent = transform;
+
+        bullet.localPosition = Vector3.zero;
+        bullet.localRotation = Quaternion.FromToRotation(Vector3.up, dir);
+
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+
+        rb.AddForce(new Vector2(forceX, 15f), ForceMode2D.Impulse);
+
+        bullet.GetComponent<Bullet>().Init(damage, penetrate, range);
+    }
+
+    // 2 - Fireball
+    void FireballFire()
+    {
+        Transform nearestTarget = GameManager.Instance.player.scanner.nearestTarget;
+        if (!nearestTarget)
+        {
+            return;
+        }
+
+        Vector3 targetPos = nearestTarget.position;
+        Vector3 dir = targetPos - transform.position;
+        dir = dir.normalized * 15f;
+
+        Transform bullet = GameManager.Instance.pool.GetBullet(prefabId).transform;
+
+        bullet.parent = transform;
+
+        bullet.localPosition = Vector3.zero;
+        bullet.localRotation = Quaternion.FromToRotation(Vector3.up, dir);
+
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+
+        rb.velocity = dir;
+
+        bullet.GetComponent<Bullet>().Init(damage, penetrate, range);
     }
 }

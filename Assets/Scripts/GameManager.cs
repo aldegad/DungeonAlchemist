@@ -8,25 +8,35 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public float gameTime;
-    public float maxGameTime = 2 * 10f;
-
+    [Header("# 전역 GameObject")]
     public Player player;
     public PoolManager pool;
-    public int totalPoint;
-    public int stagePoint;
-    public int stageIndex;
 
+    [Header("# 플레이어 데이터")]
+    public int level;
+    public int kill;
+    public float exp;
+    public int[] nextExp = { 10, 20, 30, 50, 80, 120, 180, 250, 320, 500, 640, 800, 1200, 1500, 2000, 3000, 4500, 6000, 10000, 15000, 21000, 30000 };
+    public TMP_Text UIhealth;
     public int health = 10;
 
-    [SerializeField] GameObject[] Stages;
+    [Header("# 스테이지 데이터")]
+    public GameObject[] Stages;
+    public TMP_Text UIStage;
+    public int stageIndex;
+    public TMP_Text UIStageTime;
+    public float maxGameTime;
+    public float gameTime;
 
-    [SerializeField] TMP_Text UIStageTime;
-    [SerializeField] TMP_Text UIhealth;
+    [Header("# 포인트")]
     [SerializeField] TMP_Text UIPoint;
-    [SerializeField] TMP_Text UIStage;
+    public int totalPoint;
+    public int stagePoint;
+
+    [Header("# GUI")]
     [SerializeField] GameObject UIRestartBtn;
 
+    [Header("# 피격 마테리얼(Material)")]
     public Material EnemyDefaultMaterial;
     public Material EnemyDamagedMaterial;
 

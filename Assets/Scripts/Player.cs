@@ -214,7 +214,7 @@ public class Player : MonoBehaviour
 
         PlaySound("DAMAGED");
 
-        Invoke("OffDamaged", 1);
+        Invoke("OffDamaged", 0.2f);
     }
 
     void OffDamaged()

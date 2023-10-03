@@ -3774,22 +3774,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 663f53bba7e578c4c8bdd3607c9b69b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameTime: 0
-  maxGameTime: 20
   player: {fileID: 1460836994}
   pool: {fileID: 1429611457}
-  totalPoint: 0
-  stagePoint: 0
-  stageIndex: 0
+  level: 0
+  kill: 0
+  exp: 0
+  nextExp: 0a0000003200000064000000c8000000f401000020030000b0040000dc050000d0070000b80b00009411000070170000
+  UIhealth: {fileID: 208293072}
   health: 10
   Stages:
   - {fileID: 1816175561}
   - {fileID: 72633459}
   - {fileID: 1916209269}
-  UIStageTime: {fileID: 2062214902}
-  UIhealth: {fileID: 208293072}
-  UIPoint: {fileID: 793696044}
   UIStage: {fileID: 776503356}
+  stageIndex: 0
+  UIStageTime: {fileID: 2062214902}
+  maxGameTime: 20
+  gameTime: 0
+  UIPoint: {fileID: 793696044}
+  totalPoint: 0
+  stagePoint: 0
   UIRestartBtn: {fileID: 86600965}
   EnemyDefaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   EnemyDamagedMaterial: {fileID: 2100000, guid: c519e669b8cf13144b5d46999d62da72, type: 2}
@@ -9635,9 +9639,9 @@ Rigidbody2D:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 805928211}
   - {fileID: 1120536172}
   - {fileID: 519420032}
-  - {fileID: 805928211}
   - {fileID: 1429611456}
   - {fileID: 1460836990}
   - {fileID: 1816175562}

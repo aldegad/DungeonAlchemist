@@ -123,4 +123,15 @@ public class GameManager : MonoBehaviour
     {
         UIStageTime.text = Mathf.Floor(stageTime).ToString();
     }
+
+    public void GetExp()
+    {
+        exp++;
+
+        if (exp >= nextExp[level])
+        {
+            level++;
+            exp = 0;
+        }
+    }
 }

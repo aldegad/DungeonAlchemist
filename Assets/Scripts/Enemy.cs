@@ -117,6 +117,9 @@ public class Enemy : MonoBehaviour
 
         spriteRenderer.flipY = true;
 
+        GameManager.Instance.kill++;
+        GameManager.Instance.GetExp();
+
         Invoke("DeActive", 2);
     }
     void DeActive()

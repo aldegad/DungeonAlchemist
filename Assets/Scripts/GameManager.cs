@@ -17,21 +17,15 @@ public class GameManager : MonoBehaviour
     public int kill;
     public float exp;
     public int[] nextExp = { 10, 20, 30, 50, 80, 120, 180, 250, 320, 500, 640, 800, 1200, 1500, 2000, 3000, 4500, 6000, 10000, 15000, 21000, 30000 };
-    public TMP_Text UIhealth;
-    public int health = 10;
+    public int health;
+    public int maxHealth;
 
     [Header("# 스테이지 데이터")]
     public GameObject[] Stages;
     public TMP_Text UIStage;
     public int stageIndex;
-    public TMP_Text UIStageTime;
     public float maxGameTime;
     public float gameTime;
-
-    [Header("# 포인트")]
-    [SerializeField] TMP_Text UIPoint;
-    public int totalPoint;
-    public int stagePoint;
 
     [Header("# GUI")]
     [SerializeField] GameObject UIRestartBtn;
@@ -40,28 +34,34 @@ public class GameManager : MonoBehaviour
     public Material EnemyDefaultMaterial;
     public Material EnemyDamagedMaterial;
 
-    private void Awake()
+    void Awake()
     {
         Instance = this;
+        // tempt
+        SetStage(0);
     }
 
-    void Update()
+    private void Update()
     {
-        UIPoint.text = (totalPoint + stagePoint).ToString();
-        UIhealth.text = (health).ToString();
+        gameTime += Time.deltaTime;
     }
 
-    public void NextStage()
+    public void SetStage(int stageIndex)
     {
         // Change Stage
         if (stageIndex < Stages.Length-1)
         {
-            Stages[stageIndex].SetActive(false);
-            stageIndex++;
-            Stages[stageIndex].SetActive(true);
-            PlayerReposition();
+            if (stageIndex > 0)
+            {
+                Stages[stageIndex-1].SetActive(false);
+            }
 
-            UIStage.text = "STAGE" + (stageIndex + 1).ToString();
+            Stages[stageIndex].SetActive(true);
+            StageManager stageManager = Stages[stageIndex].GetComponentInChildren<StageManager>();
+            maxGameTime = stageManager.maxStageTime;
+            gameTime = 0;
+
+            UIStage.text = "STAGE" + (stageIndex).ToString();
         }
         else
         {
@@ -74,11 +74,6 @@ public class GameManager : MonoBehaviour
             btnText.text = "Game Clear";
             UIRestartBtn.SetActive(true);
         }
-        
-
-        // Calculate Point
-        totalPoint += stagePoint;
-        stagePoint = 0;
     }
 
     public void HealthDown(int point = 1)
@@ -100,7 +95,7 @@ public class GameManager : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             // Health Down
-            HealthDown(99);
+            HealthDown(99999);
 
             PlayerReposition();
             collision.transform.position = new Vector2(0,0);
@@ -121,7 +116,7 @@ public class GameManager : MonoBehaviour
 
     public void setStageTime(float stageTime)
     {
-        UIStageTime.text = Mathf.Floor(stageTime).ToString();
+        //UIStageTime.text = Mathf.Floor(stageTime).ToString();
     }
 
     public void GetExp()

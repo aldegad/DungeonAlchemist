@@ -2,18 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpageManager : MonoBehaviour
+public class StageManager : MonoBehaviour
 {
     public float maxStageTime = 20f;
+    public Vector2 playerInitPosition;
     public SpawnData[] spawnData;
 
     Transform[] spawnPoint;
     float stageTime;
 
-    private void Awake()
+    void Awake()
     {
         spawnPoint = GetComponentsInChildren<Transform>();
     }
+
     void Update()
     {
 

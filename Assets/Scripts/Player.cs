@@ -137,17 +137,16 @@ public class Player : MonoBehaviour
             bool isPoint = collision.gameObject.name.Contains("Point");
             if (isPoint)
             {
-                GameManager.Instance.stagePoint += 1;
                 PlaySound("ITEM");
             }
         }
 
-        else if (collision.gameObject.CompareTag("Finish"))
+        /*else if (collision.gameObject.CompareTag("Finish"))
         {
             // next stage
-            GameManager.Instance.NextStage();
+            GameManager.Instance.SetStage();
             PlaySound("FINISH");
-        }
+        }*/
     }
 
     /*private void OnTriggerEnter2D(Collider2D collision)

@@ -9,7 +9,6 @@ public class StageManager : MonoBehaviour
     public SpawnData[] spawnData;
 
     Transform[] spawnPoints;
-    float stageTime;
 
     void Awake()
     {
@@ -19,10 +18,7 @@ public class StageManager : MonoBehaviour
     void Update()
     {
 
-        stageTime += Time.deltaTime;
-
-        // 스테이지 시간 표시
-        GameManager.Instance.setStageTime(maxStageTime - stageTime);
+        float stageTime = GameManager.Instance.gameTime;
 
         // 각 몹 리젠
         for (int i = 0; i < spawnData.Length; i++)

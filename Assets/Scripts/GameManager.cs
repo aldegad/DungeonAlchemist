@@ -114,11 +114,6 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    public void setStageTime(float stageTime)
-    {
-        //UIStageTime.text = Mathf.Floor(stageTime).ToString();
-    }
-
     public void GetExp()
     {
         exp++;

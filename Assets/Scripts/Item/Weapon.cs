@@ -91,6 +91,29 @@ public class Weapon : MonoBehaviour
             default:
                 break;
         }
+
+        // 내 모든 아이템의 ApplyGear 호출
+        // GameManager.Instance.player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
+    }
+
+    public void LevelUp(float damage, int count)
+    {
+        this.damage = damage;
+        this.count += count;
+        switch (prefabId)
+        {
+            case 0:
+                Batch();
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            default:
+                break;
+        }
+        // 내 모든 아이템의 ApplyGear 호출
+        // GameManager.Instance.player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
     }
 
     // 0 - Portion

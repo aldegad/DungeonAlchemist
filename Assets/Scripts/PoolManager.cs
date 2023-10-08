@@ -6,6 +6,7 @@ public class PoolManager : MonoBehaviour
 {
     // .. 프리팹들을 보관할 변수
     public GameObject[] BulletPrefabs;
+    public GameObject EnemySpawnPrefab;
     public GameObject[] EnemyPrefabs;
 
     // .. 풀 담당을 하는 리스트들
@@ -13,13 +14,12 @@ public class PoolManager : MonoBehaviour
     List<GameObject>[] EnemyPools;
     private void Awake()
     {
-        // 풀을 초기화 해야한다.... 왜...?
+        // 풀 초기화 => 오프젝트들이 들어가고 관리될 공간
         BulletPools = new List<GameObject>[BulletPrefabs.Length];
         for (int i = 0; i < BulletPools.Length; i++)
         {
             BulletPools[i] = new List<GameObject>();
         }
-
         EnemyPools = new List<GameObject>[EnemyPrefabs.Length];
         for (int i = 0; i < EnemyPools.Length; i++)
         {

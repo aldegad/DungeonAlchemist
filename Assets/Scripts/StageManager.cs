@@ -48,9 +48,10 @@ public class StageManager : MonoBehaviour
 
     void Spawn(SpawnData data)
     {
-        GameObject enemy = GameManager.Instance.pool.GetEnemy(data.spawnEnemyPrefabIndex);
-        enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
-        enemy.GetComponent<Enemy>().Init(data);
+        //GameObject SpawnObj = GameManager.Instance.pool.EnemySpawnPrefab;
+        GameObject Enemy = GameManager.Instance.pool.GetEnemy(data.spawnEnemyPrefabIndex);
+        Enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
+        Enemy.GetComponent<Enemy>().Init(data);
     }
 }
 

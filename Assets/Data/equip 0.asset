@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58da87b6d3f79d9468b81d12ba0c3eb7, type: 3}
+  m_Name: equip 0
+  m_EditorClassIdentifier: 
+  itemType: 2
+  itemId: 0
+  itemName: "\uADF8\uB0E5 \uB098\uBB47\uAC00\uC9C0"
+  itemDescription: 
+  itemIcon: {fileID: 21300000, guid: c19e27aa37c21ec47a30ecded7f88d35, type: 3}
+  baseDamage: 0
+  baseCount: 0
+  basePenetration: 0
+  damages: []
+  counts: 
+  penetrations: 
+  projectile: {fileID: 0}

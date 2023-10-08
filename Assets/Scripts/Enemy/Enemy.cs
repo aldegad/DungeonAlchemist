@@ -4,10 +4,23 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] float speed = 1f;
-    [SerializeField] float health = 10f;
-    [SerializeField] float maxHealth = 10f;
-    [SerializeField] Rigidbody2D target;
+    [Header("# 기본 능력치")]
+    public float baseSpeed = 1f;
+    public float baseMaxHealth = 10f;
+    public Rigidbody2D target;
+
+    [Header("# 스폰 관련")]
+    public bool isActive = true;
+    public float spawnBoxSize = 0.66f;
+    public float spawnBoxOffsetX = 0f;
+    public float spawnBoxOffsetY = 0f;
+
+    [Header("# 현재 능력치 -- 자동 생성")]
+    public float speed = 1f;
+    public float maxHealth = 10f;
+    public float health = 10f;
+
+    EnemyData enemy;
 
     bool isHit = false;
     bool isLive = false;
@@ -15,19 +28,22 @@ public class Enemy : MonoBehaviour
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
     Collider2D collision;
+
     WaitForSeconds waitForDamaged;
 
-    EnemyData enemy;
+    
 
 
     
     void Awake()
     {
+        enemy = GetComponent<EnemyData>();
+
         rigid = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         collision = GetComponent<Collider2D>();
+
         waitForDamaged = new WaitForSeconds(0.1f);
-        enemy = GetComponent<EnemyData>();
     }
 
     private void FixedUpdate()
@@ -50,27 +66,25 @@ public class Enemy : MonoBehaviour
         spriteRenderer.flipX = nextMove == 1;*/
     }
 
-    private void OnEnable()
+    public void Init(SpawnData data)
     {
-        // default reset
-        target = GameManager.Instance.player.GetComponent<Rigidbody2D>();
-
+        // 능력치 초기화 및 스테이지 능력치 보정 셋팅
+        isActive = true;
         isLive = true;
-        collision.enabled = true;
+        speed = baseSpeed * data.speed;
+        maxHealth = baseMaxHealth * data.health;
         health = maxHealth;
+
+        // 몹 위치 및 움직임 리셋
+        target = GameManager.Instance.player.GetComponent<Rigidbody2D>();
+        
+        collision.enabled = true;
         rigid.velocity = Vector3.zero;
         spriteRenderer.color = Color.white;
         spriteRenderer.flipY = false;
 
         // reset by enemy types
         enemy.OnInit();
-    }
-
-    public void Init(SpawnData data)
-    {
-        speed = speed * data.speed;
-        maxHealth = maxHealth * data.health;
-        health = maxHealth;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -124,6 +138,7 @@ public class Enemy : MonoBehaviour
     }
     void DeActive()
     {
+        isActive = false;
         gameObject.SetActive(false);
     }
 }

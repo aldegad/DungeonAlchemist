@@ -8,12 +8,12 @@ public class StageManager : MonoBehaviour
     public Vector2 playerInitPosition;
     public SpawnData[] spawnData;
 
-    Transform[] spawnPoint;
+    Transform[] spawnPoints;
     float stageTime;
 
     void Awake()
     {
-        spawnPoint = GetComponentsInChildren<Transform>();
+        spawnPoints = GetComponentsInChildren<Transform>();
     }
 
     void Update()
@@ -48,17 +48,30 @@ public class StageManager : MonoBehaviour
 
     void Spawn(SpawnData data)
     {
-        //GameObject SpawnObj = GameManager.Instance.pool.EnemySpawnPrefab;
-        GameObject Enemy = GameManager.Instance.pool.GetEnemy(data.spawnEnemyPrefabIndex);
-        Enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
-        Enemy.GetComponent<Enemy>().Init(data);
+        int prefabIndex = -1;
+
+        for (int index = 0; index < GameManager.Instance.pool.EnemyPrefabs.Length; index++)
+        {
+            if (data.enemyPrefab == GameManager.Instance.pool.EnemyPrefabs[index])
+            {
+                prefabIndex = index;
+                break;
+            }
+        }
+        GameObject enemy = GameManager.Instance.pool.GetEnemy(prefabIndex);
+        GameObject enemySpawn = GameManager.Instance.pool.GetEnemySpawn(enemy);
+        Transform spawnPoint = spawnPoints[Random.Range(1, spawnPoints.Length)];
+
+        enemySpawn.transform.position = spawnPoint.position;
+        enemy.transform.position = spawnPoint.position;
+        enemy.GetComponent<Enemy>().Init(data);
     }
 }
 
 [System.Serializable]
 public class SpawnData
 {
-    public int spawnEnemyPrefabIndex = 0;
+    public GameObject enemyPrefab;
     public int maxSpawnCount = 10;
     public float spawnDelay = 1f;
     public float spawnCycle = 1f;

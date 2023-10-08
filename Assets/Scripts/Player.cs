@@ -25,6 +25,11 @@ public class Player : MonoBehaviour
     bool jumpDown = false;
     bool isDamage = false;
 
+    // rays
+    bool isRayPlatformHIt = false;
+    bool isRayPlatformHitForLanding = false;
+    bool isRayEnemyHitForStepJump = false;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -37,6 +42,11 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        // rays
+        isRayPlatformHIt = OnDrawPlatformHit_DuringJump();
+        isRayPlatformHitForLanding = OnDrawPlatformHit_ForLanding();
+        isRayEnemyHitForStepJump = OnDrawEnemyHit_ForStepJump();
+
         //Jump
         if (OnJumpButtonDown() && !animator.GetBool("isJump"))
         {
@@ -51,26 +61,13 @@ public class Player : MonoBehaviour
         }
 
         // Landing Platform
-        Debug.DrawRay(rigid.position + new Vector2(-0.5f, 0.3f), Vector2.right * 1f, new Color(1, 1, 0));
-        Debug.DrawRay(rigid.position + new Vector2(-0.5f, 0.3f), Vector2.down * 1.25f, new Color(1, 1, 0));
-        Debug.DrawRay(rigid.position + new Vector2(0.5f, 0.3f), Vector2.down * 1.25f, new Color(1, 1, 0));
-        Debug.DrawRay(rigid.position + new Vector2(-0.5f, -0.95f), Vector2.right * 1f, new Color(1, 1, 0));
-        Debug.DrawRay(rigid.position, Vector2.down * 1.2f, new Color(1, 0, 0));
-
-        int PlatformLayerMask = LayerMask.GetMask("Platform", "PlatformJumpable");
-
-        RaycastHit2D raycastHitTop = Physics2D.Raycast(rigid.position + new Vector2(-0.5f, 0.3f), Vector2.right, 1f, PlatformLayerMask);
-        RaycastHit2D raycastHitLeft = Physics2D.Raycast(rigid.position + new Vector2(-0.5f, 0.3f), Vector2.down, 1.25f, PlatformLayerMask);
-        RaycastHit2D raycastHitRight = Physics2D.Raycast(rigid.position + new Vector2(0.5f, 0.3f), Vector2.down, 1.25f, PlatformLayerMask);
-        RaycastHit2D raycastHitBottom = Physics2D.Raycast(rigid.position + new Vector2(-0.5f, -0.95f), Vector2.right, 1f, PlatformLayerMask);
-        if (!raycastHitTop.collider && !raycastHitLeft.collider && !raycastHitRight.collider && !raycastHitBottom.collider)
+        if (!isRayPlatformHIt)
         {
             if (rigid.velocity.y < 0)
             {
                 Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("PlatformJumpable"), false);
-                RaycastHit2D raycastHit = Physics2D.Raycast(rigid.position, Vector2.down, 1.2f, PlatformLayerMask);
-
-                if (raycastHit.collider != null)
+                
+                if (isRayPlatformHitForLanding)
                 {
                     setJumpEnd();
                 }
@@ -118,9 +115,9 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            if (jumpDown && transform.position.y > collision.transform.position.y)
+            if (jumpDown && isRayEnemyHitForStepJump)
             {
-                OnAttack(collision.gameObject);
+                OnStepJump(collision.gameObject);
             }
             else if(!isDamage)
             {
@@ -224,15 +221,11 @@ public class Player : MonoBehaviour
         isDamage = false;
     }
 
-    void OnAttack(GameObject enemy)
+    void OnStepJump(GameObject enemy)
     {
         // Reaction Force
         rigid.velocity = Vector2.up * 10;
         PlaySound("ATTACK");
-
-        // Enemy Damaged
-        /*EnemyMove enemyMove = enemy.GetComponent<EnemyMove>();
-        enemyMove.OnDamaged();*/
     }
 
     void PlaySound(string action)
@@ -276,5 +269,40 @@ public class Player : MonoBehaviour
     public void VelocityZero()
     {
         rigid.velocity = Vector2.zero;
+    }
+
+    RaycastHit2D OnDrawPlayerLaycast(Vector2 start, Vector2 direction, float distance, int layerMask, Color color)
+    {
+        Debug.DrawRay(rigid.position + start, direction * distance, color);
+        RaycastHit2D raycastHit = Physics2D.Raycast(rigid.position + start, direction, distance, layerMask);
+        return raycastHit;
+    }
+    bool OnDrawPlatformHit_DuringJump()
+    {
+        int PlatformLayerMask = LayerMask.GetMask("Platform", "PlatformJumpable");
+        RaycastHit2D raycastHitTop = OnDrawPlayerLaycast(new Vector2(-0.5f, 0.3f), Vector2.right, 1f, PlatformLayerMask, new Color(1, 1, 0));
+        RaycastHit2D raycastHitLeft = OnDrawPlayerLaycast(new Vector2(-0.5f, 0.3f), Vector2.down, 1.25f, PlatformLayerMask, new Color(1, 1, 0));
+        RaycastHit2D raycastHitRight = OnDrawPlayerLaycast(new Vector2(0.5f, 0.3f), Vector2.down, 1.25f, PlatformLayerMask, new Color(1, 1, 0));
+        RaycastHit2D raycastHitBottom = OnDrawPlayerLaycast(new Vector2(-0.5f, -0.95f), Vector2.right, 1f, PlatformLayerMask, new Color(1, 1, 0));
+
+        return raycastHitTop.collider || raycastHitLeft.collider || raycastHitRight.collider || raycastHitBottom.collider;
+    }
+
+    bool OnDrawPlatformHit_ForLanding()
+    {
+        int PlatformLayerMask = LayerMask.GetMask("Platform", "PlatformJumpable");
+        RaycastHit2D raycastHitLeft = OnDrawPlayerLaycast(new Vector2(-0.3f, 0), Vector2.down, 1.3f, PlatformLayerMask, new Color(1, 0, 0));
+        RaycastHit2D raycastHitCenter = OnDrawPlayerLaycast(Vector2.zero, Vector2.down, 1.3f, PlatformLayerMask, new Color(1, 0, 0));
+        RaycastHit2D raycastHitRight = OnDrawPlayerLaycast(new Vector2(0.3f, 0), Vector2.down, 1.3f, PlatformLayerMask, new Color(1, 0, 0));
+        return raycastHitLeft.collider || raycastHitCenter.collider || raycastHitRight.collider;
+    }
+
+    bool OnDrawEnemyHit_ForStepJump()
+    {
+        int layerMask = LayerMask.GetMask("Enemy");
+        RaycastHit2D raycastHitLeft = OnDrawPlayerLaycast(new Vector2(-0.3f, -0.9f), Vector2.down, 0.3f, layerMask, new Color(0, 1, 0));
+        RaycastHit2D raycastHitCenter = OnDrawPlayerLaycast(new Vector2(0f, -0.9f), Vector2.down, 0.3f, layerMask, new Color(0, 1, 0));
+        RaycastHit2D raycastHitRight = OnDrawPlayerLaycast(new Vector2(0.3f, -0.9f), Vector2.down, 0.3f, layerMask, new Color(0, 1, 0));
+        return raycastHitLeft.collider || raycastHitCenter.collider || raycastHitRight.collider;
     }
 }

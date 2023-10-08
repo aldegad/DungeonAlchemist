@@ -4,19 +4,14 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    public int prefabId;
+    public int id; // 이거 어따 쓰는데...?
+    public int prefabId = -1;
     public float damage;
     public int count;
     public float attackSpeed;
-    public int penetrate;
-    public float range = 10;
+    public int penetration;
 
     float timer;
-
-    void Start()
-    {
-        Init();
-    }
 
     // Update is called once per frame
     void Update()
@@ -24,22 +19,9 @@ public class Weapon : MonoBehaviour
         switch (prefabId)
         {
             case 0:
-                timer += Time.deltaTime;
-
-                if (timer > attackSpeed)
-                {
-                    BombFire();
-                    for (int i = 0; i < count; i++)
-                    {
-                        Invoke("BombFire", i * 0.1f + 1);
-                    }
-                    timer = 0f;
-                }
+                transform.Rotate(Vector3.forward * 150/attackSpeed * Time.deltaTime);
                 break;
             case 1:
-                transform.Rotate(Vector3.forward * attackSpeed * Time.deltaTime);
-                break;
-            case 2:
                 timer += Time.deltaTime;
 
                 if (timer > attackSpeed)
@@ -52,6 +34,19 @@ public class Weapon : MonoBehaviour
                     timer = 0f;
                 }
                 break;
+            case 2:
+                timer += Time.deltaTime;
+
+                if (timer > attackSpeed)
+                {
+                    BombFire();
+                    for (int i = 0; i < count; i++)
+                    {
+                        Invoke("BombFire", i * 0.1f + 1);
+                    }
+                    timer = 0f;
+                }
+                break;
             default:
                 break;
         }
@@ -59,28 +54,40 @@ public class Weapon : MonoBehaviour
 
     }
 
-    public void LevelUp(float damage, int count)
+    public void Init(ItemData itemData)
     {
-        this.damage = damage;
-        this.count = count;
+        // Basic Set
+        name = "Weapon " + itemData.itemId;
+        transform.parent = GameManager.Instance.player.transform;
+        transform.localPosition = Vector3.zero;
 
-        if (prefabId == 1)
-        {
-            Batch();
+        // Property Set
+        id = itemData.itemId;
+        damage = itemData.baseDamage;
+        count = itemData.baseCount;
+        attackSpeed = itemData.baseAttackSpeed;
+        penetration = itemData.basePenetration;
+
+        for (int index = 0; index < GameManager.Instance.pool.BulletPrefabs.Length; index++)
+        { 
+            if(itemData.projectile == GameManager.Instance.pool.BulletPrefabs[index])
+            {
+                prefabId = index;
+                break;
+            }
         }
-    }
+        
 
-    public void Init()
-    {
+
         switch (prefabId)
         { 
             case 0:
-                
-                break;
-            case 1:
                 Batch();
                 break;
-
+            case 1:
+                break;
+            case 2:
+                break;
             default:
                 break;
         }
@@ -112,7 +119,7 @@ public class Weapon : MonoBehaviour
             bullet.Rotate(rotVec);
             bullet.Translate(bullet.up * 1.5f, Space.World);
 
-            bullet.GetComponent<Bullet>().Init(damage, -1, -1); // -1 is Infinity Per.
+            bullet.GetComponent<Bullet>().Init(damage, -1); // -1 is Infinity Per.
         }
     }
 
@@ -140,7 +147,7 @@ public class Weapon : MonoBehaviour
 
         rb.AddForce(new Vector2(forceX, 15f), ForceMode2D.Impulse);
 
-        bullet.GetComponent<Bullet>().Init(damage, penetrate, range);
+        bullet.GetComponent<Bullet>().Init(damage, penetration);
     }
 
     // 2 - Fireball
@@ -167,6 +174,6 @@ public class Weapon : MonoBehaviour
 
         rb.velocity = dir;
 
-        bullet.GetComponent<Bullet>().Init(damage, penetrate, range);
+        bullet.GetComponent<Bullet>().Init(damage, penetration);
     }
 }

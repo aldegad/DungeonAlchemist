@@ -9,16 +9,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [Header("# 전역 GameObject")]
-    public Player player;
+    public PlayerManager player;
+    public PlayerStatus playerStatus;
     public PoolManager pool;
-
-    [Header("# 플레이어 데이터")]
-    public int level;
-    public int kill;
-    public float exp;
-    public int[] nextExp = { 10, 20, 30, 50, 80, 120, 180, 250, 320, 500, 640, 800, 1200, 1500, 2000, 3000, 4500, 6000, 10000, 15000, 21000, 30000 };
-    public int health;
-    public int maxHealth;
 
     [Header("# 스테이지 데이터")]
     public GameObject[] Stages;
@@ -76,14 +69,27 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void StageClear()
+    {
+        // 스테이지를 클리어하면, 스테이지에 있는 모든 몹이 죽는다.
+        GameManager.Instance.pool.BroadcastMessage("Dead", SendMessageOptions.DontRequireReceiver);
+
+        // 땅에 떨어진 모든 마석이 플레이어에게 습득된다.
+
+        // 레벨업 GUI가 생성되고, 현재 스테이지에서 레벨업한 갯수만큼 카드를 뽑는다.
+
+        // 스테이지에서 얻은 상자 갯수만큼 아이템을 뽑는다.
+
+    }
+
     public void HealthDown(int point = 1)
     {
-        if (health > 0)
+        if (playerStatus.HP > 0)
         {
-            health -= point;
+            playerStatus.HP -= point;
         }
 
-        if(health <= 0)
+        if(playerStatus.HP <= 0)
         {
             player.OnDie();
             UIRestartBtn.SetActive(true);
@@ -116,12 +122,11 @@ public class GameManager : MonoBehaviour
 
     public void GetExp()
     {
-        exp++;
+        playerStatus.exp++;
 
-        if (exp >= nextExp[level])
+        if (playerStatus.exp >= playerStatus.nextExp[playerStatus.level])
         {
-            level++;
-            exp = 0;
+            playerStatus.PlayerLevelUp();
         }
     }
 }

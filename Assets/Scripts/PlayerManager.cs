@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class PlayerManager : MonoBehaviour
 {
     [SerializeField] float maxSpeed = 8f;
     [SerializeField] float acceleration = 1f;
@@ -138,12 +138,12 @@ public class Player : MonoBehaviour
             }
         }
 
-        /*else if (collision.gameObject.CompareTag("Finish"))
+        else if (collision.gameObject.CompareTag("Finish"))
         {
             // next stage
-            GameManager.Instance.SetStage();
+            GameManager.Instance.StageClear();
             PlaySound("FINISH");
-        }*/
+        }
     }
 
     /*private void OnTriggerEnter2D(Collider2D collision)

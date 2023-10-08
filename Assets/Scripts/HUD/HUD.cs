@@ -22,15 +22,15 @@ public class HUD : MonoBehaviour
         switch (type)
         { 
             case InfoType.Exp:
-                float curExp = GameManager.Instance.exp;
-                float maxExp = GameManager.Instance.nextExp[GameManager.Instance.level];
+                float curExp = GameManager.Instance.playerStatus.exp;
+                float maxExp = GameManager.Instance.playerStatus.nextExp[GameManager.Instance.playerStatus.level];
                 mySlider.value = curExp / maxExp;
                 break;
             case InfoType.Level:
-                myText.text = string.Format("Lv.{0:F0}", GameManager.Instance.level);
+                myText.text = string.Format("Lv.{0:F0}", GameManager.Instance.playerStatus.level);
                 break;
             case InfoType.Kill:
-                myText.text = string.Format("{0:F0}", GameManager.Instance.kill);
+                myText.text = string.Format("{0:F0}", GameManager.Instance.playerStatus.kill);
                 break;
             case InfoType.Time:
                 float remainTime = GameManager.Instance.maxGameTime - GameManager.Instance.gameTime;
@@ -45,13 +45,13 @@ public class HUD : MonoBehaviour
                     float minusTime = Mathf.Abs(remainTime);
                     int min = Mathf.FloorToInt(minusTime / 60);
                     int sec = Mathf.FloorToInt(minusTime % 60);
-                    myText.text = string.Format("{0:D2}:{1:D2}", min, sec);
+                    myText.text = string.Format("-{0:D2}:{1:D2}", min, sec);
                     myText.color = Color.red;
                 }
                 break;
             case InfoType.Health:
-                float curHealth = GameManager.Instance.health;
-                float maxHealth = GameManager.Instance.maxHealth;
+                float curHealth = GameManager.Instance.playerStatus.HP;
+                float maxHealth = GameManager.Instance.playerStatus.MaxHP;
                 mySlider.value = curHealth / maxHealth;
                 break;
         }

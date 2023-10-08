@@ -120,7 +120,7 @@ public class Enemy : MonoBehaviour
         isHit = false;
     }
 
-    void Dead()
+    public void Dead()
     {
         isLive = false;
         collision.enabled = false;
@@ -131,7 +131,7 @@ public class Enemy : MonoBehaviour
 
         spriteRenderer.flipY = true;
 
-        GameManager.Instance.kill++;
+        GameManager.Instance.playerStatus.kill++;
         GameManager.Instance.GetExp();
 
         Invoke("DeActive", 2);

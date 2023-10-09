@@ -129,4 +129,9 @@ public class GameManager : MonoBehaviour
             playerStatus.PlayerLevelUp();
         }
     }
+
+    public void GetMagicalStone()
+    {
+        playerStatus.magicalStone++;
+    }
 }

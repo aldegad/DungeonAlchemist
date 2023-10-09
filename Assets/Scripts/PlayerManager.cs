@@ -125,17 +125,12 @@ public class PlayerManager : MonoBehaviour
             }
         }
         
-        else if (collision.gameObject.CompareTag("Item"))
+        else if (collision.gameObject.CompareTag("MagicalStone"))
         {
-            // Deactive Item
             collision.gameObject.SetActive(false);
-
-            // Point
-            bool isPoint = collision.gameObject.name.Contains("Point");
-            if (isPoint)
-            {
-                PlaySound("ITEM");
-            }
+            GameManager.Instance.GetExp();
+            GameManager.Instance.GetMagicalStone();
+            PlaySound("ITEM");
         }
 
         else if (collision.gameObject.CompareTag("Finish"))

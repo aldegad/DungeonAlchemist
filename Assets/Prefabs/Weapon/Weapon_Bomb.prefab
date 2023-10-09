@@ -184,5 +184,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  penetrate: 0
-  range: 0
+  penetration: 0

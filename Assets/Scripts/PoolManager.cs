@@ -8,11 +8,13 @@ public class PoolManager : MonoBehaviour
     public GameObject[] BulletPrefabs;
     public GameObject EnemySpawnPrefab;
     public GameObject[] EnemyPrefabs;
+    public GameObject MagicalStonePrefab;
 
     // .. 풀 담당을 하는 리스트들
     List<GameObject>[] BulletPools;
-    List<GameObject> EnemySpawnPools;
+    List<GameObject> EnemySpawnPool;
     List<GameObject>[] EnemyPools;
+    List<GameObject> MagicalStonePool;
 
     private void Awake()
     {
@@ -22,12 +24,13 @@ public class PoolManager : MonoBehaviour
         {
             BulletPools[i] = new List<GameObject>();
         }
-        EnemySpawnPools = new List<GameObject>();
+        EnemySpawnPool = new List<GameObject>();
         EnemyPools = new List<GameObject>[EnemyPrefabs.Length];
         for (int i = 0; i < EnemyPools.Length; i++)
         {
             EnemyPools[i] = new List<GameObject>();
         }
+        MagicalStonePool = new List<GameObject>();
     }
     public GameObject GetBullet(int index)
     {
@@ -60,7 +63,9 @@ public class PoolManager : MonoBehaviour
     {
         GameObject select = null;
 
-        foreach (GameObject spawn in EnemySpawnPools)
+        // ... 선택한 풀의 놀고 있는 (비활성화된) 게임오브젝트 접근
+        // ... 발견하면 select 변수에 할당
+        foreach (GameObject spawn in EnemySpawnPool)
         {
             if (!spawn.activeSelf)
             {
@@ -73,7 +78,7 @@ public class PoolManager : MonoBehaviour
         if (!select)
         {
             select = Instantiate(EnemySpawnPrefab, transform);
-            EnemySpawnPools.Add(select);
+            EnemySpawnPool.Add(select);
         }
 
         // enemySpawn object에 enemy의 정보를 넣어준다.
@@ -111,6 +116,37 @@ public class PoolManager : MonoBehaviour
             select.SetActive(false);
             EnemyPools[index].Add(select);
         }
+
+        return select;
+    }
+
+    public GameObject GetMagicalStone(GameObject enemy)
+    {
+        GameObject select = null;
+
+        // ... 선택한 풀의 놀고 있는 (비활성화된) 게임오브젝트 접근
+        // ... 발견하면 select 변수에 할당
+        foreach (GameObject magicalStone in MagicalStonePool)
+        {
+            if (!magicalStone.activeSelf)
+            {
+                select = magicalStone;
+                select.SetActive(true);
+                break;
+            }
+        }
+
+        // ... 못 찾았으면?
+        // ... 새롭게 생성하고 select 변수에 할당
+        if (!select)
+        {
+            select = Instantiate(MagicalStonePrefab, transform);
+            MagicalStonePool.Add(select);
+        }
+
+        // Debug.Log(select);
+        select.transform.position = enemy.transform.position;
+        select.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 2, ForceMode2D.Impulse);
 
         return select;
     }

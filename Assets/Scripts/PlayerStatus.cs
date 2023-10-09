@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
 {
-    [Header("# 플레이어 레벨 데이터")]
+    [Header("# 플레이어 기본 데이터")]
     public Sprite levelSprite;
     public int level = 1;
     public int levelUpInStage = 0;
     public int kill;
     public float exp;
     public int[] nextExp = { 10, 20, 30, 50, 80, 120, 180, 250, 320, 500, 640, 800, 1200, 1500, 2000, 3000, 4500, 6000, 10000, 15000, 21000, 30000 };
+    public int magicalStone = 0;
 
     [Header("# 플레이어 능력치")]
     public Sprite MaxHPSprite;

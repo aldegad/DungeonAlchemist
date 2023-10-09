@@ -89,16 +89,20 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // Debug.Log(collision.CompareTag("Bullet") + " / " + isLive);
         if (!collision.CompareTag("Bullet") || !isLive)
         {
             return;
         }
+        
+        float damage = collision.GetComponent<Bullet>().damage;
 
-        health -= collision.GetComponent<Bullet>().damage;
+        health -= damage;
 
         if (health > 0)
         {
             // ... Live, Hit Action
+            // Debug.Log("Enemy Damaged: " + damage);
             StartCoroutine(OnDamage());
         }
         else
@@ -132,18 +136,19 @@ public class Enemy : MonoBehaviour
         spriteRenderer.flipY = true;
 
         GameManager.Instance.playerStatus.kill++;
-        GameManager.Instance.GetExp();
+        GameManager.Instance.pool.GetMagicalStone(gameObject);
 
-        Invoke("DeActive", 2);
+        StartCoroutine(DeActive());
     }
-    void DeActive()
+    IEnumerator DeActive()
     {
+        yield return new WaitForSeconds(2f);
         isActive = false;
         gameObject.SetActive(false);
     }
 }
 
-
+// enemy 각각 데이터의 기본이 되는 녀석
 public class EnemyData : MonoBehaviour
 {
     protected Rigidbody2D rigid;

@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
     public void SetStage(int stageIndex)
     {
         // Change Stage
-        if (stageIndex < Stages.Length-1)
+        if (stageIndex < Stages.Length)
         {
             if (stageIndex > 0)
             {

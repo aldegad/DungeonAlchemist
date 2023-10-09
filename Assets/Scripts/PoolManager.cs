@@ -9,12 +9,14 @@ public class PoolManager : MonoBehaviour
     public GameObject EnemySpawnPrefab;
     public GameObject[] EnemyPrefabs;
     public GameObject MagicalStonePrefab;
+    public GameObject StageEndPortalPrefab;
 
     // .. 풀 담당을 하는 리스트들
     List<GameObject>[] BulletPools;
     List<GameObject> EnemySpawnPool;
     List<GameObject>[] EnemyPools;
     List<GameObject> MagicalStonePool;
+    GameObject StageClearPortal;
 
     private void Awake()
     {
@@ -146,6 +148,28 @@ public class PoolManager : MonoBehaviour
 
         // Debug.Log(select);
         select.transform.position = enemy.transform.position;
+        select.GetComponent<Rigidbody2D>().AddForce(Vector2.up, ForceMode2D.Impulse);
+
+        return select;
+    }
+
+    public GameObject GetStageClearPortal(Transform portalPosition)
+    {
+        GameObject select = null;
+
+        if (StageClearPortal)
+        {
+            select = StageClearPortal;
+            select.SetActive(true);
+        }
+
+        if (!select)
+        {
+            select = Instantiate(StageEndPortalPrefab, transform);
+            StageClearPortal = select;
+        }
+        // Debug.Log(select);
+        select.transform.position = transform.position;
         select.GetComponent<Rigidbody2D>().AddForce(Vector2.up, ForceMode2D.Impulse);
 
         return select;

@@ -9,6 +9,7 @@ public class StageManager : MonoBehaviour
     public SpawnData[] spawnData;
 
     Transform[] spawnPoints;
+    bool isSpawnStageClearPortal = false;
 
     void Awake()
     {
@@ -40,6 +41,14 @@ public class StageManager : MonoBehaviour
                 }
             }
         }
+
+        if (stageTime >= maxStageTime && !isSpawnStageClearPortal)
+        {
+            // 스테이지 시간이 지나면, 클리어 포탈이 생기고,
+            isSpawnStageClearPortal = true;
+            SpawnStageClearPortal();
+            // 패널티 몹이 나온다.
+        }
     }
 
     void Spawn(SpawnData data)
@@ -61,6 +70,12 @@ public class StageManager : MonoBehaviour
         enemySpawn.transform.position = spawnPoint.position;
         enemy.transform.position = spawnPoint.position;
         enemy.GetComponent<Enemy>().Init(data);
+    }
+
+    void SpawnStageClearPortal()
+    {
+        Transform spawnPoint = spawnPoints[Random.Range(1, spawnPoints.Length)];
+        GameManager.Instance.pool.GetStageClearPortal(spawnPoint);
     }
 }
 

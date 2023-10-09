@@ -158,7 +158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 28.2, y: -92}
+  m_AnchoredPosition: {x: 28.199951, y: -92}
   m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &22077366
@@ -836,6 +836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxStageTime: 5
+  stageTime: 0
   playerInitPosition: {x: 7, y: 7.51}
   spawnData:
   - enemyPrefab: {fileID: 522240927933300196, guid: 4d234d50e530b2f498277ff34c3fa5ac, type: 3}
@@ -854,6 +855,7 @@ MonoBehaviour:
     speed: 1
     lastSpawnTime: 0
     spawnCount: 0
+  isStageClear: 0
 --- !u!1 &169771605
 GameObject:
   m_ObjectHideFlags: 0
@@ -1389,7 +1391,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 28.2, y: -51}
+  m_AnchoredPosition: {x: 28.199951, y: -51}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &318801048
@@ -2281,9 +2283,9 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.10250437
     y: 0
-    width: 1
+    width: 0.79518545
     height: 1
   near clip plane: 1
   far clip plane: 1000
@@ -4167,8 +4169,7 @@ MonoBehaviour:
   Stages:
   - {fileID: 1816175561}
   stageIndex: 0
-  maxGameTime: 20
-  gameTime: 0
+  stageManager: {fileID: 0}
   UIRestartBtn: {fileID: 86600965}
   EnemyDefaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   EnemyDamagedMaterial: {fileID: 2100000, guid: c519e669b8cf13144b5d46999d62da72, type: 2}

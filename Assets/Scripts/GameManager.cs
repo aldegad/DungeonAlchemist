@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
             {
                 Stages[stageIndex-1].SetActive(false);
             }
-            stageManager = GameManager.Instance.Stages[GameManager.Instance.stageIndex].GetComponentInChildren<StageManager>();
+            stageManager = Stages[stageIndex].GetComponentInChildren<StageManager>();
             Stages[stageIndex].SetActive(true);
         }
         else
@@ -60,9 +60,10 @@ public class GameManager : MonoBehaviour
     public void StageClear()
     {
         // 스테이지를 클리어하면, 스테이지에 있는 모든 몹이 죽는다.
+        // 땅에 떨어진 모든 마석이 플레이어에게 습득된다.(레이어를 무시하고 달려온다.) => MagicalStoneScript
         stageManager.isStageClear = true;
 
-        // 땅에 떨어진 모든 마석이 플레이어에게 습득된다.
+        
 
         // 레벨업 GUI가 생성되고, 현재 스테이지에서 레벨업한 갯수만큼 카드를 뽑는다.
 

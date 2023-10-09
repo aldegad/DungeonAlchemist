@@ -124,14 +124,6 @@ public class PlayerManager : MonoBehaviour
                 OnDamaged(collision.transform.position);
             }
         }
-        
-        else if (collision.gameObject.CompareTag("MagicalStone"))
-        {
-            collision.gameObject.SetActive(false);
-            GameManager.Instance.GetExp();
-            GameManager.Instance.GetMagicalStone();
-            PlaySound("ITEM");
-        }
 
         else if (collision.gameObject.CompareTag("Finish"))
         {
@@ -141,10 +133,16 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    /*private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        // 이런것도 있드라.
-    }*/
+        if (collision.gameObject.CompareTag("MagicalStone"))
+        {
+            collision.gameObject.SetActive(false);
+            GameManager.Instance.GetExp();
+            GameManager.Instance.GetMagicalStone();
+            PlaySound("ITEM");
+        }
+    }
 
     bool OnJumpButtonDown()
     {

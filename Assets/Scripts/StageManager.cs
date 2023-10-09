@@ -14,6 +14,7 @@ public class StageManager : MonoBehaviour
 
     Transform[] spawnPoints;
     bool isSpawnStageClearPortal = false;
+    public bool isStageClear = false;
 
     void Awake()
     {
@@ -22,6 +23,12 @@ public class StageManager : MonoBehaviour
 
     void Update()
     {
+        // 스테이지가 클리어되면 모든 리스폰 및 로직이 멈춘다.
+        if (isStageClear)
+        {
+            GameManager.Instance.pool.BroadcastMessage("Dead", SendMessageOptions.DontRequireReceiver);
+            return;
+        }
 
         stageTime += Time.deltaTime;
 

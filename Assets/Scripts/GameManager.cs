@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
     public void StageClear()
     {
         // 스테이지를 클리어하면, 스테이지에 있는 모든 몹이 죽는다.
-        GameManager.Instance.pool.BroadcastMessage("Dead", SendMessageOptions.DontRequireReceiver);
+        stageManager.isStageClear = true;
 
         // 땅에 떨어진 모든 마석이 플레이어에게 습득된다.
 

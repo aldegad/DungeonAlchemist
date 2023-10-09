@@ -126,6 +126,9 @@ public class Enemy : MonoBehaviour
 
     public void Dead()
     {
+        if (!isLive)
+            return;
+
         isLive = false;
         collision.enabled = false;
         

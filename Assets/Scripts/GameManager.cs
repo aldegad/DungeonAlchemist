@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
 
     [Header("# 스테이지 데이터")]
     public GameObject[] Stages;
-    public TMP_Text UIStage;
     public int stageIndex;
     public float maxGameTime;
     public float gameTime;
@@ -53,8 +52,6 @@ public class GameManager : MonoBehaviour
             StageManager stageManager = Stages[stageIndex].GetComponentInChildren<StageManager>();
             maxGameTime = stageManager.maxStageTime;
             gameTime = 0;
-
-            UIStage.text = "STAGE" + (stageIndex).ToString();
         }
         else
         {

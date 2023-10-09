@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
-    public enum InfoType { Exp, Level, Kill, Time, Health }
+    public enum InfoType { Stage, Exp, Level, MagicStone, Time, Health }
     public InfoType type;
 
     Text myText;
@@ -21,6 +21,9 @@ public class HUD : MonoBehaviour
     {
         switch (type)
         { 
+            case InfoType.Stage:
+                myText.text = string.Format("Stage {0:F0}", GameManager.Instance.stageIndex+1);
+                break;
             case InfoType.Exp:
                 float curExp = GameManager.Instance.playerStatus.exp;
                 float maxExp = GameManager.Instance.playerStatus.nextExp[GameManager.Instance.playerStatus.level];
@@ -29,8 +32,8 @@ public class HUD : MonoBehaviour
             case InfoType.Level:
                 myText.text = string.Format("Lv.{0:F0}", GameManager.Instance.playerStatus.level);
                 break;
-            case InfoType.Kill:
-                myText.text = string.Format("{0:F0}", GameManager.Instance.playerStatus.kill);
+            case InfoType.MagicStone:
+                myText.text = string.Format("{0:F0}", GameManager.Instance.playerStatus.magicalStone);
                 break;
             case InfoType.Time:
                 float remainTime = GameManager.Instance.maxGameTime - GameManager.Instance.gameTime;

@@ -146,7 +146,7 @@ public class PoolManager : MonoBehaviour
 
         // Debug.Log(select);
         select.transform.position = enemy.transform.position;
-        select.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 2, ForceMode2D.Impulse);
+        select.GetComponent<Rigidbody2D>().AddForce(Vector2.up, ForceMode2D.Impulse);
 
         return select;
     }

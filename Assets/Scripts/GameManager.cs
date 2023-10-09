@@ -16,8 +16,7 @@ public class GameManager : MonoBehaviour
     [Header("# 스테이지 데이터")]
     public GameObject[] Stages;
     public int stageIndex;
-    public float maxGameTime;
-    public float gameTime;
+    public StageManager stageManager;
 
     [Header("# GUI")]
     [SerializeField] GameObject UIRestartBtn;
@@ -33,11 +32,6 @@ public class GameManager : MonoBehaviour
         SetStage(0);
     }
 
-    private void Update()
-    {
-        gameTime += Time.deltaTime;
-    }
-
     public void SetStage(int stageIndex)
     {
         // Change Stage
@@ -47,11 +41,8 @@ public class GameManager : MonoBehaviour
             {
                 Stages[stageIndex-1].SetActive(false);
             }
-
+            stageManager = GameManager.Instance.Stages[GameManager.Instance.stageIndex].GetComponentInChildren<StageManager>();
             Stages[stageIndex].SetActive(true);
-            StageManager stageManager = Stages[stageIndex].GetComponentInChildren<StageManager>();
-            maxGameTime = stageManager.maxStageTime;
-            gameTime = 0;
         }
         else
         {

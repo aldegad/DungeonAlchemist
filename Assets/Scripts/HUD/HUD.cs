@@ -19,24 +19,30 @@ public class HUD : MonoBehaviour
 
     private void LateUpdate()
     {
+        PlayerStatus playerStatus = GameManager.Instance.playerStatus;
+        StageManager stageManager = GameManager.Instance.stageManager;
+
+        if (!playerStatus || !stageManager)
+            return;
+
         switch (type)
-        { 
+        {
             case InfoType.Stage:
                 myText.text = string.Format("Stage {0:F0}", GameManager.Instance.stageIndex+1);
                 break;
             case InfoType.Exp:
-                float curExp = GameManager.Instance.playerStatus.exp;
-                float maxExp = GameManager.Instance.playerStatus.nextExp[GameManager.Instance.playerStatus.level];
+                float curExp = playerStatus.exp;
+                float maxExp = playerStatus.nextExp[playerStatus.level];
                 mySlider.value = curExp / maxExp;
                 break;
             case InfoType.Level:
-                myText.text = string.Format("Lv.{0:F0}", GameManager.Instance.playerStatus.level);
+                myText.text = string.Format("Lv.{0:F0}", playerStatus.level);
                 break;
             case InfoType.MagicStone:
-                myText.text = string.Format("{0:F0}", GameManager.Instance.playerStatus.magicalStone);
+                myText.text = string.Format("{0:F0}", playerStatus.magicalStone);
                 break;
             case InfoType.Time:
-                float remainTime = GameManager.Instance.maxGameTime - GameManager.Instance.gameTime;
+                float remainTime = stageManager.maxStageTime - stageManager.stageTime;
                 if (remainTime >= 0)
                 {
                     int min = Mathf.FloorToInt(remainTime / 60);
@@ -53,8 +59,8 @@ public class HUD : MonoBehaviour
                 }
                 break;
             case InfoType.Health:
-                float curHealth = GameManager.Instance.playerStatus.HP;
-                float maxHealth = GameManager.Instance.playerStatus.MaxHP;
+                float curHealth = playerStatus.HP;
+                float maxHealth = playerStatus.MaxHP;
                 mySlider.value = curHealth / maxHealth;
                 break;
         }

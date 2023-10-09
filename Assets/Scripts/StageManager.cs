@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
+    [Header("# 스테이지 정보")]
     public float maxStageTime = 20f;
+    public float stageTime = 0f;
     public Vector2 playerInitPosition;
     public SpawnData[] spawnData;
+
+
 
     Transform[] spawnPoints;
     bool isSpawnStageClearPortal = false;
@@ -19,7 +23,7 @@ public class StageManager : MonoBehaviour
     void Update()
     {
 
-        float stageTime = GameManager.Instance.gameTime;
+        stageTime += Time.deltaTime;
 
         // 각 몹 리젠
         for (int i = 0; i < spawnData.Length; i++)

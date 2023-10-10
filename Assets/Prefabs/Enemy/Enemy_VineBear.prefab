@@ -184,16 +184,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5184eab782e3959469cb96e3e24ec859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeed: 1
+  baseSpeed: 2
   baseMaxHealth: 10
   target: {fileID: 0}
   isActive: 1
   spawnBoxSize: 0.66
   spawnBoxOffsetX: 0.121
   spawnBoxOffsetY: -0.54
-  speed: 1
-  maxHealth: 10
-  health: 10
+  speed: 0
+  maxHealth: 0
+  health: 0
 --- !u!114 &-6485701795330919319
 MonoBehaviour:
   m_ObjectHideFlags: 0

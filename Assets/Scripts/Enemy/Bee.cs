@@ -12,20 +12,25 @@ public class Bee : EnemyData
     public override void OnMove(Rigidbody2D target, float speed)
     {
         // 유저 방향으로 돌진 - 중력 영향없이 쭈우우욱 이동함
-        distance = transform.position - target.transform.position;
+        distance = target.transform.position - transform.position;
         distance = distance.normalized;
 
-        float moveSpeed = speed * Time.fixedDeltaTime * 60;
+        float moveSpeed = 5 * Time.fixedDeltaTime * 60;
 
         if (distance.x < 0)
         {
-            rigid.velocity = new Vector2(moveSpeed, rigid.velocity.y);
             spriteRenderer.flipX = true;
         }
         else
         {
-            rigid.velocity = new Vector2(moveSpeed * -1, rigid.velocity.y);
             spriteRenderer.flipX = false;
+        }
+
+        rigid.AddForce(distance * moveSpeed, ForceMode2D.Impulse);
+
+        if (Mathf.Abs(rigid.velocity.magnitude) > speed)
+        {
+            rigid.velocity = rigid.velocity.normalized * speed;
         }
     }
 }

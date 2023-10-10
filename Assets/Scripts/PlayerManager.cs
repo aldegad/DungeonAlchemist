@@ -45,7 +45,6 @@ public class PlayerManager : MonoBehaviour
         // rays
         isRayPlatformHIt = OnDrawPlatformHit_DuringJump();
         isRayPlatformHitForLanding = OnDrawPlatformHit_ForLanding();
-        isRayEnemyHitForStepJump = OnDrawEnemyHit_ForStepJump();
 
         //Jump
         if (OnJumpButtonDown() && !animator.GetBool("isJump"))
@@ -115,6 +114,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            isRayEnemyHitForStepJump = OnDrawEnemyHit_ForStepJump(collision.collider);
             if (jumpDown && isRayEnemyHitForStepJump)
             {
                 OnStepJump(collision.gameObject);
@@ -183,34 +183,35 @@ public class PlayerManager : MonoBehaviour
         animator.SetBool("isJump", false);
     }
 
-    void OnDamaged(Vector2 targetPos)
+    void OnDamaged(Vector3 targetPos)
     {
         isDamage = true;
         // Health Down
         GameManager.Instance.HealthDown(1);
 
         // Change Layer (Immortal Active)
-        // gameObject.layer = 11;
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyFly"), true);
 
 
         // View Alpha
         spriteRenderer.color = new Color(1, 1, 1, 0.4f);
 
         // Reaction Force
-        int dirc = transform.position.x - targetPos.x > 0 ? 1 : -1;
-        rigid.velocity = new Vector2(dirc, 1)*10;
+        Vector2 direction = transform.position - targetPos;
+        direction = direction.normalized;
+        rigid.AddForce(direction * 10f, ForceMode2D.Impulse);
 
         PlaySound("DAMAGED");
 
-        Invoke("OffDamaged", 0.2f);
+        Invoke("OffDamaged", 0.1f);
     }
 
     void OffDamaged()
     {
-        // gameObject.layer = 10;
         spriteRenderer.color = new Color(1, 1, 1, 1);
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyFly"), false);
         isDamage = false;
     }
 
@@ -290,12 +291,12 @@ public class PlayerManager : MonoBehaviour
         return raycastHitLeft.collider || raycastHitCenter.collider || raycastHitRight.collider;
     }
 
-    bool OnDrawEnemyHit_ForStepJump()
+    bool OnDrawEnemyHit_ForStepJump(Collider2D collid)
     {
-        int layerMask = LayerMask.GetMask("Enemy");
+        int layerMask = LayerMask.GetMask("Enemy", "EnemyFly");
         RaycastHit2D raycastHitLeft = OnDrawPlayerLaycast(new Vector2(-0.3f, -0.9f), Vector2.down, 0.3f, layerMask, new Color(0, 1, 0));
         RaycastHit2D raycastHitCenter = OnDrawPlayerLaycast(new Vector2(0f, -0.9f), Vector2.down, 0.3f, layerMask, new Color(0, 1, 0));
         RaycastHit2D raycastHitRight = OnDrawPlayerLaycast(new Vector2(0.3f, -0.9f), Vector2.down, 0.3f, layerMask, new Color(0, 1, 0));
-        return raycastHitLeft.collider || raycastHitCenter.collider || raycastHitRight.collider;
+        return collid == raycastHitLeft.collider || collid == raycastHitCenter.collider || collid == raycastHitRight.collider;
     }
 }

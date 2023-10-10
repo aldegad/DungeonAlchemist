@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -49,6 +47,7 @@ public class PlayerStatus : MonoBehaviour
     public string MagicDefenseText = "마법 방어력";
 
     [Header("# 플레이어 레벨업 시 습득 가능한 능력치")]
+    //public Dicti
     public int[] MaxHPLevelUp = { 3, 6, 9 };
     public int[] HPReGenerationLevelUp = { 1, 2, 3 };
     public int[] MaxMPLevelUp = { 3, 6, 9 };

@@ -42,6 +42,10 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
+        // 스테이지가 클리어된 상황에서는 동작 및 이벤트 업뎃을 안한다.
+        if (GameManager.Instance.stageManager.isStageClear)
+            return;
+
         // rays
         isRayPlatformHIt = OnDrawPlatformHit_DuringJump();
         isRayPlatformHitForLanding = OnDrawPlatformHit_ForLanding();
@@ -98,6 +102,10 @@ public class PlayerManager : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        // 스테이지가 클리어된 상황에서는 동작 및 이벤트 업뎃을 안한다.
+        if (GameManager.Instance.stageManager.isStageClear)
+            return;
+
         // Move Speed
         float h = Input.GetAxisRaw("Horizontal") * acceleration * Time.fixedDeltaTime * 60;
         //Debug.Log(Input.GetAxisRaw("Horizontal"));

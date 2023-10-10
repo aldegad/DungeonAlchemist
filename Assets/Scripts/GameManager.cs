@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public StageManager stageManager;
 
     [Header("# GUI")]
+    public GameObject UILevelUp;
     [SerializeField] GameObject UIRestartBtn;
 
     [Header("# 피격 마테리얼(Material)")]
@@ -63,12 +64,16 @@ public class GameManager : MonoBehaviour
         // 땅에 떨어진 모든 마석이 플레이어에게 습득된다.(레이어를 무시하고 달려온다.) => MagicalStoneScript
         stageManager.isStageClear = true;
 
-        
-
         // 레벨업 GUI가 생성되고, 현재 스테이지에서 레벨업한 갯수만큼 카드를 뽑는다.
+        StartCoroutine(OpenLevelUpUI());
 
         // 스테이지에서 얻은 상자 갯수만큼 아이템을 뽑는다.
 
+    }
+    IEnumerator OpenLevelUpUI()
+    {
+        yield return new WaitForSeconds(2f);
+        UILevelUp.SetActive(true);
     }
 
     public void HealthDown(int point = 1)

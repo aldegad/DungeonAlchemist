@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -47,7 +49,6 @@ public class PlayerStatus : MonoBehaviour
     public string MagicDefenseText = "마법 방어력";
 
     [Header("# 플레이어 레벨업 시 습득 가능한 능력치")]
-    //public Dicti
     public int[] MaxHPLevelUp = { 3, 6, 9 };
     public int[] HPReGenerationLevelUp = { 1, 2, 3 };
     public int[] MaxMPLevelUp = { 3, 6, 9 };
@@ -74,4 +75,39 @@ public class PlayerStatus : MonoBehaviour
         // 스테이지가 종료되면, 현재 스테이지에서 레벨업 된 수 만큼 스테이터스 카드를 뽑는다.
         levelUpInStage++;
     }
+
+    public void GetLevelUpCards()
+    {
+        for (int cardIndex = 0; cardIndex < 4; cardIndex++)
+        {
+            int statusIndex = Random.Range(0, 10);
+            int statusGradeDice = Random.Range(0, 10); // 0 ~ 4 normal, 5 ~ 8 rare, 9 epic
+            int statusGradeIndex = 0;
+            if (statusGradeDice < 5)
+            {
+                statusGradeIndex = 0;
+            }
+            else if (statusGradeDice < 8)
+            {
+                statusGradeIndex = 1;
+            }
+            else {
+                statusGradeIndex = 2;
+            }
+        }
+    }
+
+    /* Dictionary<string,int> GetLevelUpStatusCard(int statusIndex, int statusGradeIndex)
+    {
+        Dictionary<string,int> statusCard = new Dictionary<string, int>();
+        switch (statusIndex)
+        {
+            case 0:
+                statusCard.Add("status", "HP");
+                statusCard.Add("value", MaxHP[]);
+                return new Dictionary<string, int>();
+            default:
+                return 
+        }
+    } */
 }

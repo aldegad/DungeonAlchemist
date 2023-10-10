@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
     IEnumerator OpenLevelUpUI()
     {
         yield return new WaitForSeconds(2f);
+        // playerStatus.
         UILevelUp.SetActive(true);
     }
 
